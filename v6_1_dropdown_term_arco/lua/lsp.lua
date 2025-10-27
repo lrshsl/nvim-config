@@ -17,7 +17,7 @@ return {
          'hrsh7th/cmp-buffer',
 
          -- Snippets
-         'L3MON4D3/LuaSnip',
+         { 'L3MON4D3/LuaSnip', build = "make install_jsregexp", config = function() require 'snippets' end },
          'saadparwaiz1/cmp_luasnip',
 
          -- Telescope
@@ -39,11 +39,10 @@ return {
             require 'which-key'.add {
                mode = { 'n' },
                { 'g',  group = 'goto' },
-               { 'gd', vim.lsp.buf.definition,              desc = 'Goto definition' },
-               { 'gD', vim.lsp.buf.declaration,             desc = 'Goto declaration' },
-               { 'gi', vim.lsp.buf.implementation,          desc = 'Goto implementation' },
-               { 'gr', vim.lsp.buf.definition,              desc = 'Goto references' },
-               { 'gh', '<cmd>ClangdSwitchSourceHeader<CR>', desc = 'Goto header/source' },
+               { 'gd', vim.lsp.buf.definition,     desc = 'Goto definition' },
+               { 'gD', vim.lsp.buf.declaration,    desc = 'Goto declaration' },
+               { 'gi', vim.lsp.buf.implementation, desc = 'Goto implementation' },
+               { 'gr', vim.lsp.buf.definition,     desc = 'Goto references' },
                -- Telescope handles other goto stuff
             }
             -- Navigate snippets
@@ -67,7 +66,7 @@ return {
                ['vimls'] = { 'vim' },
                ['rust_analyzer'] = { 'rust' },
                ['clangd'] = { 'c', 'cpp' },
-               ['pyright'] = { 'python' },
+               ['autopep8'] = { 'python' },
                ['nimls'] = { 'nim' },
                ['zls'] = { 'zig' },
                ['vls'] = { 'vlang', 'v' },
@@ -78,41 +77,42 @@ return {
          -- Mason
          require 'mason'.setup {}
          require 'mason-lspconfig'.setup {
-            ensure_installed = { 'lua_ls', 'vimls', 'rust_analyzer', 'clangd', 'pyright', 'nimls', 'zls', 'vls' },
+            ensure_installed = { 'lua_ls', 'rust_analyzer', 'clangd', },
             handlers = {
                function(server_name)
-                  require 'lspconfig'[server_name].setup {}
+                  vim.lsp.config(server_name).setup {}
                end,
             }
          }
-         require 'lspconfig'.gleam.setup {}
 
          -- Autocompletion
          local cmp = require 'cmp'
          local cmp_action = lsp_zero.cmp_action()
-
+         vim.keymap.set({ 'i', 's' }, '<Tab>', function()
+            if vim.snippet.active({ direction = 1 }) then
+               vim.snippet.jump(1)
+               return ''
+            elseif cmp.visible() then
+               cmp.mapping.confirm { select = true }
+               return ''
+            else
+               return '<Tab>'
+            end
+         end, { expr = true })
          cmp.setup {
-            keyword_length = 3,
             sources = {
-               { name = 'codeium', keyword_length = 1, max_item_count = 3 },
-               { name = 'path' },
-               { name = 'nvim_lsp' },
-               { name = 'luasnip' },
-               { name = 'orgmode' },
-               { name = 'buffer',  keyword_length = 5 },
+               { name = 'luasnip',  keyword_length = 0 },
+               { name = 'codeium',  keyword_length = 1, max_item_count = 3 },
+               { name = 'path',     keyword_length = 0 },
+               { name = 'nvim_lsp', keyword_length = 1 },
+               { name = 'orgmode',  keyword_length = 0 },
+               { name = 'buffer',   keyword_length = 5, max_item_count = 3 },
             },
             mapping = {
                ['<C-Space>'] = cmp.mapping.complete(),
                ['<C-y>'] = cmp.mapping.confirm { select = true },
                ['<C-c>'] = cmp.mapping.abort(),
                -- Backup for <C-e>
-               ['<C-k>'] = cmp.mapping(function()
-                  if cmp.visible() then
-                     cmp.select_prev_item { behavior = 'insert' }
-                  else
-                     cmp.complete()
-                  end
-               end),
                ['<C-e>'] = cmp.mapping(function()
                   if cmp.visible() then
                      cmp.select_prev_item { behavior = 'insert' }

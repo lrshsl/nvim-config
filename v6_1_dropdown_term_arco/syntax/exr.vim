@@ -8,7 +8,14 @@ elseif exists('b:current_syntax')
 endif
 
 syn keyword		exrDefine				map df
-syn match		exrBecomes				"=>"
+syn match		exrBecomes				'=>'
+syn match		exrStore					'<-'
+syn match		exrIsExpr				/is\|\.\.\|?/
+
+syn match		exrExprGrp				/{\|}/
+syn match		exrValGrp				/(\|)/
+
+syn match		exrExprEnd				';'
 
 syn region		exrOutString			start="'"		end="'"		contains=exrExpr,exrString
 syn region		exrOutMultiString		start="''''"	end="''''"	contains=exrExpr,exrString
@@ -19,16 +26,31 @@ syn match		exrExpr					"]"
 syn match		exrComment				"||[^|]*\(\n\|||\)\||[^|]*\(\n\||\)"
 
 
-hi def link		exrDefine				Keyword
-hi def link		exrBecomes				Keyword
+hi def link		ExrOp						Red
+hi def link		ExrKw						Red
+hi def link		ExrGrp					Orange
+hi def link		ExrCtrlFlow				Blue
 
-hi def link		exrOutString			String
-hi def link		exrOutMultiString		String
-hi def link		exrString				Orange
+hi def link		ExrString				Orange
+
+hi def link		exrDefine				ExrKw
+hi def link		exrBecomes				ExrKw
+hi def link		exrIsExpr				ExrCtrlFlow
+
+hi def link		exrExprGrp				ExrGrp
+hi def link		exrValGrp				ExrGrp
+
+hi def link		exrStore					ExrOp
+hi def link		exrExprEnd				ExrOp
+
+hi def link		exrOutString			ExrString
+hi def link		exrOutMultiString		ExrString
+hi def link		exrString				ExrString
 hi def link		exrExpr					Special
 
 hi def link		exrComment				Comment
 
 
 let b:current_syntax="exr"
+
 " vim: noet sw=3 sts=3 ts=3

@@ -7,6 +7,8 @@ local session_man = require 'session_manager'
 wk.add {
    --> Leader mappings
    {
+      { 'gh',        '<cmd>Ouroboros<CR>',         desc = 'Goto header/source' },
+
       { '<space>m',  group = 'messages' },
       { '<space>ml', '<cmd>Noice last<CR>',        desc = 'Messages' },
       { '<space>mm', '<cmd>Noice history<CR>',     desc = 'History' },
@@ -33,55 +35,62 @@ wk.add {
       -- { '<leader>g;', function() harpoon:list():select(4) end },
 
       --> Find
-      { '<space>f',  group = 'find' },
-      { '<space>fd', telescope.diagnostics,                                      desc = 'Find diagnostics' },
-      { '<space>fr', telescope.lsp_references,                                   desc = 'Find References' },
-      { '<space>fh', telescope.help_tags,                                        desc = 'Find Help' },
+      { '<space>f',        group = 'find' },
+      { '<space>fd',       telescope.diagnostics,                                      desc = 'Find diagnostics' },
+      { '<space>fr',       telescope.lsp_references,                                   desc = 'Find References' },
+      { '<space>fh',       telescope.help_tags,                                        desc = 'Find Help' },
 
-      { '<space>fg', telescope.live_grep,                                        desc = 'Live grep' },
+      { '<space>fg',       telescope.live_grep,                                        desc = 'Live grep' },
 
-      { '<space>ft', telescope.find_files,                                       desc = 'Telescope find_files' },
-      { '<space>ff', '<cmd>BrootWorkingDir<CR>',                                 desc = 'Find Files' },
-      { '<space>fl', '<cmd>BrootCurrentDir<CR>',                                 desc = 'Find local Files' },
-      { '<space>fa', '<cmd>Telescope find_files hidden=true<cr>',                desc = 'Find All Files (also hidden)' },
-      { '<space>fA', '<cmd>Telescope find_files hidden=true no_ignore=true<cr>', desc = 'Find All Files (hidden & ignored)' },
-      { '<space>fb', telescope.buffers,                                          desc = 'Find Buffers' },
-      { '<space>fo', telescope.oldfiles,                                         desc = 'Open Recent File' },
+      { '<space>ft',       telescope.find_files,                                       desc = 'Telescope find_files' },
+      { '<space>ff',       '<cmd>BrootWorkingDir<CR>',                                 desc = 'Find Files' },
+      { '<space>fl',       '<cmd>BrootCurrentDir<CR>',                                 desc = 'Find local Files' },
+      { '<space>fa',       '<cmd>Telescope find_files hidden=true<cr>',                desc = 'Find All Files (also hidden)' },
+      { '<space>fA',       '<cmd>Telescope find_files hidden=true no_ignore=true<cr>', desc = 'Find All Files (hidden & ignored)' },
+      { '<space>fb',       telescope.buffers,                                          desc = 'Find Buffers' },
+      { '<space>fo',       telescope.oldfiles,                                         desc = 'Open Recent File' },
 
-      { '<space>fs', telescope.lsp_document_symbols,                             desc = 'Find Document Symbols' },
-      { '<space>fS', telescope.symbols,                                          desc = 'Symbols' },
-      { '<space>fw', telescope.lsp_dynamic_workspace_symbols,                    desc = 'Workspace Symbols' },
+      { '<space>fs',       telescope.lsp_document_symbols,                             desc = 'Find Document Symbols' },
+      { '<space>fS',       telescope.symbols,                                          desc = 'Symbols' },
+      { '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Workspace Symbols' },
+
+      --> Git
+      { '<space>g',        group = "git" },
+      { '<space>g.',       '<cmd>Git<CR>',                                             desc = 'Git' },
+      { '<space>g<space>', ':Git<space>',                                              desc = ':Git <CMD>' },
 
       --> Session
-      { '<space>s',  group = 'session' },
-      { '<space>ss', session_man.save_current_session,                           desc = 'Save Session' },
-      { '<space>sl', session_man.load_session,                                   desc = 'Load Session' },
-      { '<space>sL', session_man.load_last_session,                              desc = 'Load Last Session' },
-      { '<space>sd', session_man.delete_session,                                 desc = 'Delete Session' },
+      { '<space>s',        group = 'session' },
+      { '<space>ss',       session_man.save_current_session,                           desc = 'Save Session' },
+      { '<space>sl',       session_man.load_session,                                   desc = 'Load Session' },
+      { '<space>sL',       session_man.load_last_session,                              desc = 'Load Last Session' },
+      { '<space>sd',       session_man.delete_session,                                 desc = 'Delete Session' },
 
       --> Lsp
-      { '<space>c',  group = 'code' },
-      { '<space>ca', vim.lsp.buf.code_action,                                    desc = 'Code Action' },
-      { '<space>ch', vim.lsp.buf.hover,                                          desc = 'Hover' },
-      { '<space>cf', vim.lsp.buf.format,                                         desc = 'Format' },
-      { '<space>cd', vim.diagnostic.open_float,                                  desc = 'Diagnostics' },
+      { '<space>c',        group = 'code' },
+      { '<space>ca',       vim.lsp.buf.code_action,                                    desc = 'Code Action' },
+      { '<space>ch',       vim.lsp.buf.hover,                                          desc = 'Hover' },
+      { '<space>cf',       vim.lsp.buf.format,                                         desc = 'Format' },
+      { '<space>cd',       vim.diagnostic.open_float,                                  desc = 'Diagnostics' },
       { '<space>cr', function()
          return ":IncRename " .. vim.fn.expand("<cword>")
       end, desc = 'Rename', expr = true },
 
+      { '<space>;u',  '<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>', desc = 'Undo Tree' },
+
       --> Text editing
-      { '<space>u',   'viw~',                          desc = 'lower <-> UPPER' },
-      { '<space>U',   'viW~',                          desc = 'lower-word <-> UPPER-WORD' },
-      { '<space>y',   '~<Left>',                       desc = '~' },
+      { '<space>u',   'viw~',                                          desc = 'lower <-> UPPER' },
+      { '<space>U',   'viW~',                                          desc = 'lower-word <-> UPPER-WORD' },
+      { '<space>y',   '~<Left>',                                       desc = '~' },
 
       { '<space>;c',  group = "Change case" },
-      { '<space>;cc', [[viw:s/\%V_\(\w\)/\u\1/g<CR>]], desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
-      { '<space>;cs', [[viw:s/\%V\(\u\)/_\l\1/g<CR>]], desc = "camelCase -> snake_case" },
+      { '<space>;cc', [[viw:s/\%V_\(\w\)/\u\1/g<CR>]],                 desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
+      { '<space>;cs', [[viw:s/\%V\(\u\)/_\l\1/g<CR>]],                 desc = "camelCase -> snake_case" },
 
       --> Buffer
-      { '<space>w',   ':wa<CR>',                       desc = 'write buffers' },
-      { '<space>q',   ':q<CR>',                        desc = 'quit buffer' },
-      { '<space>;q',  ':qa<CR>',                       desc = 'quit all' },
+      { '<space>w',   ':wa<CR>',                                       desc = 'write buffers' },
+      { '<space>q',   ':q<CR>',                                        desc = 'quit buffer' },
+      { '<space>;q',  ':qa<CR>',                                       desc = 'quit all' },
 
       --> Search and replace
       {
@@ -132,7 +141,7 @@ wk.add {
    --> Insert mode mappings
    {
       mode = { 'i' },
-      name = 'Abbreviations',
+      name = 'Abbreviations, umlauts and accents',
       { ';ae',  'ä',            desc = 'ä', },
       { ';Ae',  'Ä',            desc = 'Ä', },
       { ';AE',  'Ä',            desc = 'Ä', },
@@ -144,6 +153,18 @@ wk.add {
       { ';ue',  'ü',            desc = 'ü', },
       { ';Ue',  'Ü',            desc = 'Ü', },
       { ';UE',  'Ü',            desc = 'Ü', },
+
+      { ';ee',  'é',            desc = 'é', },
+      { ';eg',  'è',            desc = 'è', },
+      { ';ec',  'ê',            desc = 'ê', },
+      { ';cc',  'ç',            desc = 'ç', },
+      { ';ed',  'ë',            desc = 'ë', },
+
+      { ';ag',  'à',            desc = 'à', },
+
+      { ';yd',  'ÿ',            desc = 'ÿ', },
+      { ';aae', 'æ',            desc = 'æ', },
+      { ';ooe', 'œ',            desc = 'œ', },
 
       { ';str', "&'static str", desc = "&'static str" },
       { ';l',   "'",            desc = "lifetime tick (')" }, -- Lifetimes (and still getting auto-close for '')
@@ -164,10 +185,10 @@ Nmap('<C-right>', ':vertical resize+2<CR>')
 --> Terminal
 require 'dropdown_terminal'
 
-Tmap('<C-up>', '<cmd>res +5<CR>')
-Tmap('<C-down>', '<cmd>res -5<CR>')
-Tmap('<C-left>', '<cmd>vertical resize-2<CR>')
-Tmap('<C-right>', '<cmd>vertical resize+2<CR>')
+-- Tmap('<C-up>', '<cmd>res +5<CR>')
+-- Tmap('<C-down>', '<cmd>res -5<CR>')
+-- Tmap('<C-left>', '<cmd>vertical resize-2<CR>')
+-- Tmap('<C-right>', '<cmd>vertical resize+2<CR>')
 
 Nmap('<S-up>', MoveTermUp)
 Nmap('<S-down>', MoveTermDown)
@@ -199,48 +220,49 @@ noremap <S-ScrollWheelDown> 5<C-E>
 noremap <C-ScrollWheelUp> <C-+>
 noremap <C-ScrollWheelDown> <C-->
 
-" Paste in all modes and editors (neovide) "
-
+" Paste in all modes "
+nnoremap <MiddleMouse> i<MiddleMouse>
 inoremap <C-S-v> <MiddleMouse>
 nnoremap <C-S-v> i<MiddleMouse>
+
 nnoremap <C-v> "+p
 nnoremap <space>v <C-v>
 
-" Paste: Yank to clipboard in visual with Y / ctrl-c ctrl-v "
+" Yank to clipboard in visual with Y / ctrl-c ctrl-v "
 vnoremap Y "+y
 vnoremap <C-c> "+y
 vnoremap <C-v> "+p
 
-" Put yanked content in reg 8 "
-noremap <space>P <cmd>let @8=@"<CR>
-noremap <space>p "8p
+" Put yanked content in reg k "
+noremap <space>P <cmd>let @k=@"<CR>
+noremap <space>p "kp
 
 " Paste on new line "
 nnoremap <space>;p <cmd>pu<CR>==$
 nnoremap <space>;P <cmd>pu!<CR>==$
 
 " Scroll using Ctrl "
-nnoremap <C-e> 10<C-e>
-nnoremap <C-n> 10<C-y>
+noremap <C-e> 10<C-e>
+noremap <C-i> 10<C-y>
 
 " <C-u> is already mapped
 noremap <C-y> <C-d>
 
 " Window navigation
-map <C-S-i> <cmd>wincmd l<CR>
-map <C-S-h> <cmd>wincmd h<CR>
-map <C-S-n> <cmd>wincmd j<CR>
-map <C-S-e> <cmd>wincmd k<CR>
+"map <C-S-i> <cmd>wincmd l<CR>
+"map <C-S-h> <cmd>wincmd h<CR>
+"map <C-S-n> <cmd>wincmd j<CR>
+"map <C-S-e> <cmd>wincmd k<CR>
 
-tmap <C-S-i> <cmd>wincmd l<CR>
-tmap <C-S-h> <cmd>wincmd h<CR>
-tmap <C-S-n> <cmd>wincmd j<CR>
-tmap <C-S-e> <cmd>wincmd k<CR>
+tnoremap <C-S-i> <cmd>wincmd l<CR>
+tnoremap <C-S-h> <cmd>wincmd h<CR>
+tnoremap <C-S-n> <cmd>wincmd j<CR>
+tnoremap <C-S-e> <cmd>wincmd k<CR>
 
-nmap <space>i <cmd>wincmd l<CR>
-nmap <space>h <cmd>wincmd h<CR>
-nmap <space>n <cmd>wincmd j<CR>
-nmap <space>e <cmd>wincmd k<CR>
+nnoremap <space>i <cmd>wincmd l<CR>
+nnoremap <space>h <cmd>wincmd h<CR>
+nnoremap <space>n <cmd>wincmd j<CR>
+nnoremap <space>e <cmd>wincmd k<CR>
 
 " Stop highlight "
 noremap <C-;> <cmd>noh<CR>
@@ -279,8 +301,12 @@ augroup CMD_RUN
 	autocmd BufNewFile,BufRead *.c,*.h            nnoremap <space>rf   :!gcc -Wall -Wextra -std=c11 -pedantic -o c.out % ; ./c.out
 	autocmd BufNewFile,BufRead *.cpp,*.hh,*.hpp   nnoremap <space>rf   :!g++ -Wall -Wextra -std=c++17 -pedantic -o a.out % ; ./a.out
 
+	autocmd BufNewFile,BufRead *.c,*.h            nnoremap <space>re   :!gcc -E -Wall -Wextra -std=c11 -pedantic -o c.out % ; ./c.out
+	autocmd BufNewFile,BufRead *.cpp,*.hh,*.hpp   nnoremap <space>re   :%!g++ -E -Wall -Wextra -std=c++17 -pedantic -o a.out % ; ./a.out
+
 	" Python, js, go "
 	autocmd BufNewFile,BufRead *.py               nnoremap <space>ra   :!python main.py
+	autocmd BufNewFile,BufRead *.py               nnoremap <space>cf   :!autopep8 -i %<CR>
 	autocmd BufNewFile,BufRead *.py               nnoremap <space>rf   :!python %
 	autocmd BufNewFile,BufRead *.js               nnoremap <space>ra   :!node<space>
 	autocmd BufNewFile,BufRead *.go               nnoremap <space>ra   :!go run<space>
@@ -298,7 +324,8 @@ augroup CMD_RUN
 	autocmd BufNewFile,BufRead *.nim              nnoremap <space>rf   :!nim c -r %
 
 	" Java && Gradle "
-	autocmd BufNewFile,BufRead *.java             nnoremap <space>ra   :!gradle deploy
+	autocmd BufNewFile,BufRead *.java             nnoremap <space>ra   :!./gradlew run
+	autocmd BufNewFile,BufRead *.java             nnoremap <space>rf   :!javac % && java %:t:r
 	autocmd BufNewFile,BufRead *.java             nnoremap <space>rb   :!gradle build
 
 	" Br*infuck "
@@ -310,6 +337,9 @@ augroup CMD_RUN
 
 	" Markdown -> PDF "
 	autocmd BufNewFile,BufRead *.md,*.tex         nnoremap <space>ra   :!pandoc % -o out.pdf
+
+	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rf   :!typst compile %
+	autocmd BufNewFile,BufRead *.typ              nnoremap <space>ra   :!typst watch % &
 augroup END
 ]]
 
@@ -323,6 +353,8 @@ local function get_shift_cr(language)
       return "\n;<left>", " // "
    elseif language == "exas" then
       return "\n,<left>", " | "
+   elseif language == "typst" then
+      return "\n\n<up><tab>"
    else
       return "\n", "\n"
    end
@@ -348,9 +380,9 @@ function CustomShiftCR()
    vim.api.nvim_feedkeys(exactly(out), 'n', false)
 end
 
-Imap('<S-CR>', CustomShiftCR)
-
 vim.cmd [[
+
+au FileType rust,c,cpp,exas inoremap <S-CR> <cmd>lua CustomShiftCR()<CR>
 
 " Codeium "
 "imap <script><silent><nowait><expr> <C-y> codeium#Accept()
@@ -359,7 +391,7 @@ imap <C-:>   <Cmd>call codeium#CycleCompletions(1)<CR>
 imap <C-[>   <Cmd>call codeium#Clear()<CR>
 
 " Correct last spelling mistake "
-imap <C-l> <C-g>u<esc>[s1z=`]a<C-g>u
+noremap <C-l> <C-g>u<esc>[s1z=`]a<C-g>u
 
 " Colemak Mappings
 inoremap tn <esc>
@@ -384,16 +416,16 @@ nnoremap cl cl
 nnoremap ci ci
 
 " Alias beginning and end of line "
-noremap <silent> H 0
-noremap <silent> I <end>
+noremap H 0
+noremap I <end>
 
 " Jump Up/Down with Shift "
 noremap N 5<down>
 noremap E 5<up>
 
 " Left and right without leaving insert mode
-inoremap <C-h> <C-o><Left>
-inoremap <C-i> <right>
+"inoremap <C-h> <C-o><Left>
+"inoremap <C-i> <right>
 "inoremap <C-e> <up>
 "inoremap <C-n> <down>
 

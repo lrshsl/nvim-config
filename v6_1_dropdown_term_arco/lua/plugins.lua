@@ -1,97 +1,90 @@
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		'git',
-		'clone',
-		'--filter=blob:none',
-		'https://github.com/folke/lazy.nvim.git',
-		'--branch=stable', -- latest stable release
-		lazypath,
-	})
+   vim.fn.system({
+      'git',
+      'clone',
+      '--filter=blob:none',
+      'https://github.com/folke/lazy.nvim.git',
+      '--branch=stable', -- latest stable release
+      lazypath,
+   })
 end
 vim.opt.rtp:prepend(lazypath)
 
 
 -- Actual plugins
 local plugins = {
-	--> Base dependencies
-	{ 'nvim-lua/plenary.nvim',       lazy = true },
-	{ 'echasnovski/mini.icons',      lazy = true },
-	{ 'nvim-tree/nvim-web-devicons', lazy = true },
+   --> Base dependencies
+   { 'nvim-lua/plenary.nvim',       lazy = false },
+   { 'nvim-tree/nvim-web-devicons', lazy = false },
 
-	{
-		'thecodinglab/nvim-vlang',
-		ft = 'vlang'
-	},
-	--> Platformio
-	{ 'normen/vim-pio',       ft = { 'c', 'cpp' } },
-	{ 'benknoble/vim-racket', ft = 'racket' },
+   --> Platformio
+   -- { 'normen/vim-pio',              ft = { 'c', 'cpp' } },
+   { 'benknoble/vim-racket',        ft = 'racket' },
 
-	--> Colorscheme
-	{ 'sainnhe/sonokai',      lazy = true },
+   --> Text editing
+   require 'treesitter_conf',
+   'tpope/vim-fugitive',
+   'tpope/vim-surround',
+   'tpope/vim-repeat',
+   'tpope/vim-commentary',
+   { "smjonas/inc-rename.nvim", opts = { show_message = false, } },
 
-	--> Text editing
-	require 'treesitter_conf',
-	'tpope/vim-surround',
-	'tpope/vim-repeat',
-	'tpope/vim-commentary',
-	{ "smjonas/inc-rename.nvim", opts = { show_message = false, } },
+   require 'autopairs_conf',
 
-	require 'autopairs_conf',
+   {
+      'nvim-orgmode/orgmode',
+      event = 'VeryLazy',
+      ft = { 'org' },
+      config = function()
+         -- Setup orgmode
+         require('orgmode').setup({
+            org_agenda_files = '~/orgfiles/**/*',
+            org_default_notes_file = '~/orgfiles/refile.org',
+         })
+      end,
+   },
 
-	{
-		'nvim-orgmode/orgmode',
-		event = 'VeryLazy',
-		ft = { 'org' },
-		config = function()
-			-- Setup orgmode
-			require('orgmode').setup({
-				org_agenda_files = '~/orgfiles/**/*',
-				org_default_notes_file = '~/orgfiles/refile.org',
-			})
+   --> Undotree
+   { 'mbbill/undotree',         lazy = false },
 
-			-- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option
-			-- add ~org~ to ignore_install
-		end,
-	},
+   --> Sneak around in a file with s/S
+   'justinmk/vim-sneak',
 
-	--> Undotree
-	{ 'mbbill/undotree',         lazy = false },
+   --> LSP
+   require 'lsp',
+   require 'ouroboros_conf',
 
-	--> Sneak around in a file with s/S
-	'justinmk/vim-sneak',
+   --> Latex
+   -- require 'latex',
+   require 'typst_conf',
 
-	--> LSP
-	require 'lsp',
+   --> AI helper
+   { 'exafunction/codeium.nvim', opts = {} },
 
-	--> Latex
-	require 'latex',
+   --> Space(macs|vim)-like keybinding preview
+   require 'which_key',
 
-	--> AI helper
-	-- { 'exafunction/codeium.nvim', opts = {} },
+   --> Session manager
+   require 'session_manager_conf',
 
-	--> Space(macs|vim)-like keybinding preview
-	require 'which_key',
+   --> Files
+   require 'neotree',
+   -- require 'harpoon',
+   { 'aohoyd/broot.nvim',        opts = {} },
+   { 'stevearc/oil.nvim',        opts = {},                             cmd = 'Oil' },
 
-	--> Session manager
-	require 'session_manager_conf',
+   { 'jakemason/ouroboros',      dependencies = 'nvim-lua/plenary.nvim' },
 
-	--> Files
-	require 'neotree',
-	require 'harpoon1',
-	{ "aohoyd/broot.nvim", opts = {} },
-	{ 'stevearc/oil.nvim', opts = {}, cmd = 'Oil' },
+   --> Fuzzy finders
+   require 'telescope_conf',
 
-	--> Fuzzy finders
-	require 'telescope_conf',
-
-	--> Integrate wezterm
-	require 'navigator',
-
-	--> Zen mode
-	{ 'junegunn/goyo.vim',      cmd = 'Goyo' },
-	{ 'junegunn/limelight.vim', cmd = 'Limelight' },
+   --> Zen mode
+   { 'junegunn/goyo.vim',      cmd = 'Goyo' },
+   { 'junegunn/limelight.vim', cmd = 'Limelight' },
+   { 'EdenEast/nightfox.nvim', lazy = false },
+   --{ 'sainnhe/sonokai',             lazy = true },
 }
 
 require 'lazy'.setup(plugins, {})
