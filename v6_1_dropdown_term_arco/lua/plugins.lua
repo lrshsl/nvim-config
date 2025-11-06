@@ -22,6 +22,7 @@ local plugins = {
    --> Platformio
    -- { 'normen/vim-pio',              ft = { 'c', 'cpp' } },
    { 'benknoble/vim-racket',        ft = 'racket' },
+   { 'rhysd/reply.vim',             ft = 'racket' },
 
    --> Text editing
    require 'treesitter_conf',
@@ -32,19 +33,6 @@ local plugins = {
    { "smjonas/inc-rename.nvim", opts = { show_message = false, } },
 
    require 'autopairs_conf',
-
-   {
-      'nvim-orgmode/orgmode',
-      event = 'VeryLazy',
-      ft = { 'org' },
-      config = function()
-         -- Setup orgmode
-         require('orgmode').setup({
-            org_agenda_files = '~/orgfiles/**/*',
-            org_default_notes_file = '~/orgfiles/refile.org',
-         })
-      end,
-   },
 
    --> Undotree
    { 'mbbill/undotree',         lazy = false },
@@ -61,7 +49,7 @@ local plugins = {
    require 'typst_conf',
 
    --> AI helper
-   { 'exafunction/codeium.nvim', opts = {} },
+   { 'exafunction/codeium.nvim', opts = {},                             cmd = "Codeium" },
 
    --> Space(macs|vim)-like keybinding preview
    require 'which_key',
@@ -71,7 +59,7 @@ local plugins = {
 
    --> Files
    require 'neotree',
-   -- require 'harpoon',
+   -- require 'harpoon_conf',
    { 'aohoyd/broot.nvim',        opts = {} },
    { 'stevearc/oil.nvim',        opts = {},                             cmd = 'Oil' },
 

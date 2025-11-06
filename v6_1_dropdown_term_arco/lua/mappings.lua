@@ -77,6 +77,7 @@ wk.add {
       end, desc = 'Rename', expr = true },
 
       { '<space>;u',  '<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>', desc = 'Undo Tree' },
+      { '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',                   desc = 'Open in Zathura' },
 
       --> Text editing
       { '<space>u',   'viw~',                                          desc = 'lower <-> UPPER' },
@@ -318,6 +319,9 @@ augroup CMD_RUN
 	" V "
 	autocmd BufNewFile,BufRead *.v                nnoremap <space>ra   :!v crun .<space>
 	autocmd BufNewFile,BufRead *.v                nnoremap <space>rf   :!v crun %
+
+	autocmd BufNewFile,BufRead *.rkt              nnoremap <space>rf   :!racket %
+	autocmd BufNewFile,BufRead *.rkt              nnoremap <space>rr   :vertical rightbelow Repl<CR>
 
 	" Nim "
 	autocmd BufNewFile,BufRead *.nim              nnoremap <space>ra   :!nimble run --<space>

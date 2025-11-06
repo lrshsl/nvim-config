@@ -17,7 +17,14 @@ return {
          'hrsh7th/cmp-buffer',
 
          -- Snippets
-         { 'L3MON4D3/LuaSnip', build = "make install_jsregexp", config = function() require 'snippets' end },
+         {
+            'L3MON4D3/LuaSnip',
+            build = "make install_jsregexp",
+            opts = {
+               enable_autosnippets = true,
+               store_selection_keys = '<Tab>',
+            }
+         },
          'saadparwaiz1/cmp_luasnip',
 
          -- Telescope
@@ -65,12 +72,11 @@ return {
                ['lua_ls'] = { 'lua' },
                ['vimls'] = { 'vim' },
                ['rust_analyzer'] = { 'rust' },
-               ['clangd'] = { 'c', 'cpp' },
+               ['clangd-format'] = { 'c', 'cpp' },
                ['autopep8'] = { 'python' },
+               ['typstyle'] = { 'typst' },
                ['nimls'] = { 'nim' },
                ['zls'] = { 'zig' },
-               ['vls'] = { 'vlang', 'v' },
-               ['gleam'] = { 'gleam' },
             }
          }
 
@@ -87,48 +93,54 @@ return {
 
          -- Autocompletion
          local cmp = require 'cmp'
-         local cmp_action = lsp_zero.cmp_action()
-         vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-            if vim.snippet.active({ direction = 1 }) then
-               vim.snippet.jump(1)
-               return ''
-            elseif cmp.visible() then
-               cmp.mapping.confirm { select = true }
-               return ''
-            else
-               return '<Tab>'
-            end
-         end, { expr = true })
+         -- vim.keymap.set({ 'i', 's' }, '<Tab>', function()
+         --    if vim.snippet.active({ direction = 1 }) then
+         --       vim.snippet.jump(1)
+         --       return ''
+         --    elseif cmp.visible() then
+         --       cmp.mapping.confirm { select = true }
+         --       return ''
+         --    else
+         --       return '<Tab>'
+         --    end
+         -- end, { expr = true })
+         local mappings = {
+            ['<C-Space>'] = cmp.mapping(cmp.complete, { 'i', 'c', 's' }),
+            ['<C-y>'] = cmp.mapping(function()
+               cmp.confirm { select = true }
+            end, { 'i', 'c', 's' }),
+            -- ['<Tab>'] = cmp.mapping.confirm { select = true },
+            ['<C-c>'] = cmp.mapping(cmp.abort, { 'i', 'c', 's' }),
+            -- Backup for <C-e>
+            ['<C-e>'] = cmp.mapping(function()
+               if cmp.visible() then
+                  cmp.select_prev_item { behavior = 'insert' }
+               else
+                  cmp.complete()
+               end
+            end, { 'i', 'c', 's' }),
+            ['<C-n>'] = cmp.mapping(function()
+               if cmp.visible() then
+                  cmp.select_next_item { behavior = 'insert' }
+               else
+                  cmp.complete()
+               end
+            end, { 'i', 'c', 's' }),
+         }
          cmp.setup {
+            experimental = {
+               ghost_text = true,
+            },
+            keyword_length = 3,
             sources = {
-               { name = 'luasnip',  keyword_length = 0 },
-               { name = 'codeium',  keyword_length = 1, max_item_count = 3 },
-               { name = 'path',     keyword_length = 0 },
-               { name = 'nvim_lsp', keyword_length = 1 },
-               { name = 'orgmode',  keyword_length = 0 },
+               { name = 'luasnip',  keyword_length = 1, option = { show_condition = false, show_autosnippets = false } },
+               { name = 'codeium',  keyword_length = 2, max_item_count = 3 },
+               { name = 'path',     keyword_length = 2 },
+               { name = 'nvim_lsp', keyword_length = 2 },
                { name = 'buffer',   keyword_length = 5, max_item_count = 3 },
             },
-            mapping = {
-               ['<C-Space>'] = cmp.mapping.complete(),
-               ['<C-y>'] = cmp.mapping.confirm { select = true },
-               ['<C-c>'] = cmp.mapping.abort(),
-               -- Backup for <C-e>
-               ['<C-e>'] = cmp.mapping(function()
-                  if cmp.visible() then
-                     cmp.select_prev_item { behavior = 'insert' }
-                  else
-                     cmp.complete()
-                  end
-               end),
-               ['<C-n>'] = cmp.mapping(function()
-                  if cmp.visible() then
-                     cmp.select_next_item { behavior = 'insert' }
-                  else
-                     cmp.complete()
-                  end
-               end),
-            },
-            formatting = lsp_zero.cmp_format { details = true },
+            mapping = mappings,
+            -- formatting = lsp_zero.cmp_format { details = true },
             snippet = {
                expand = function(args)
                   -- You need Neovim v0.10 to use vim.snippet
@@ -143,38 +155,26 @@ return {
          }
 
          -- `/` cmdline setup.
-         -- cmp.setup.cmdline('/', {
-         -- 	mapping = cmp.mapping.preset.cmdline(),
-         -- 	sources = {
-         -- 		{ name = 'buffer' }
-         -- 	}
-         -- })
+         cmp.setup.cmdline('/', {
+            mapping = mappings,
+            -- mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+               { name = 'nvim_lsp', keyword_length = 2 },
+               { name = 'buffer',   keyword_length = 2, max_item_count = 3 },
+            }
+         })
 
          -- `:` cmdline setup.
-         -- cmp.setup.cmdline(':', {
-         -- 	mapping = cmp.mapping.preset.cmdline(),
-         -- 	-- mapping = {
-         -- 	-- 	['<C-e>'] = cmp.mapping(function()
-         -- 	-- 		if cmp.visible() then
-         -- 	-- 			cmp.select_prev_item { behavior = 'insert' }
-         -- 	-- 		else
-         -- 	-- 			cmp.complete()
-         -- 	-- 		end
-         -- 	-- 	end),
-         -- 	-- 	['<C-n>'] = cmp.mapping(function()
-         -- 	-- 		if cmp.visible() then
-         -- 	-- 			cmp.select_next_item { behavior = 'insert' }
-         -- 	-- 		else
-         -- 	-- 			cmp.complete()
-         -- 	-- 		end
-         -- 	-- 	end),
-         -- 	-- },
-         -- 	sources = cmp.config.sources {
-         -- 		{ name = 'path' },
-         -- 		{ name = 'cmdline' }
-         -- 	},
-         -- 	matching = { disallow_symbol_nonprefix_matching = false }
-         -- })
+         cmp.setup.cmdline(':', {
+            mapping = mappings,
+            -- mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources {
+               { name = 'path',     keyword_length = 2 },
+               { name = 'nvim_lsp', keyword_length = 2 },
+               { name = 'buffer',   keyword_length = 3, max_item_count = 3 },
+            },
+            matching = { disallow_symbol_nonprefix_matching = false }
+         })
       end
    },
 
