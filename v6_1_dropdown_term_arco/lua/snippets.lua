@@ -23,7 +23,16 @@ ls.add_snippets('tex', mdtex_snippets)
 vim.cmd [[
 augroup typst_maps
    au!
-   au BufEnter,BufRead,BufNewFile *.typ        inoremap $ $$<left>
+   "au BufEnter,BufRead,BufNewFile *.typ        inoremap $ $$<left>
    au BufEnter,BufRead,BufNewFile *.typ        inoremap <S-CR> <CR><CR><up><tab>
 augroup END
 ]]
+
+
+local tp = require 'typstar.autosnippets'
+local typ_snippets = {
+   tp.snip('imp', '==>>', {}, tp.in_math),
+   tp.snip('st', [["s.t"]], {}, tp.in_math),
+}
+
+ls.add_snippets('typ', typ_snippets)

@@ -8,11 +8,11 @@ return {
          ensure_installed = {
             "lua", "vim", "vimdoc",
             "c", "rust",
-            "bash", "fish", "elvish",
+            "bash", "fish",
             "html" },
          sync_install = false,
          highlight = { enable = true },
-         indent = { enable = true },
+         indent = { enable = false }, -- Had trouble with it
       })
    end
 }

@@ -34,12 +34,15 @@ return {
       },
    },
    config = function()
-      require 'lsp'
+      require 'lsp' -- Make sure it loads first
       require 'typstar'
           .setup {
              add_undo_breakpoints = true,
              snippets = {
                 enable = true,
+                exclude = {
+                   'vv', 'st', 'ip', 'ib', 'el', 'ep',
+                },
              },
           }
    end,

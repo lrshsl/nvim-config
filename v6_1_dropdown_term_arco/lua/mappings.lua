@@ -344,6 +344,7 @@ augroup CMD_RUN
 
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rf   :!typst compile %
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>ra   :!typst watch % &
+	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rn   :!typst c % --root ../../
 augroup END
 ]]
 
