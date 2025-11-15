@@ -1,0 +1,9 @@
+
+
+map home => 'Home "Str"'
+map nav x => "Go to [x]"
+
+df x <- 1;
+is x .. < 0? 1 / 1;
+
+| vim: ft=exr

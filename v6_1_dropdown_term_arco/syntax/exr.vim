@@ -4,7 +4,7 @@
 if v:version < 600
 	syntax clear
 elseif exists('b:current_syntax')
-	finish
+	" finish
 endif
 
 syn keyword		exrDefine				map df
@@ -12,10 +12,13 @@ syn match		exrBecomes				'=>'
 syn match		exrStore					'<-'
 syn match		exrIsExpr				/is\|\.\.\|?/
 
+syn match		exrNum					/\d\+/
+
 syn match		exrExprGrp				/{\|}/
 syn match		exrValGrp				/(\|)/
 
 syn match		exrExprEnd				';'
+syn match		exrNormOp				/[/]/
 
 syn region		exrOutString			start="'"		end="'"		contains=exrExpr,exrString
 syn region		exrOutMultiString		start="''''"	end="''''"	contains=exrExpr,exrString
@@ -26,12 +29,12 @@ syn match		exrExpr					"]"
 syn match		exrComment				"||[^|]*\(\n\|||\)\||[^|]*\(\n\||\)"
 
 
-hi def link		ExrOp						Red
-hi def link		ExrKw						Red
-hi def link		ExrGrp					Orange
-hi def link		ExrCtrlFlow				Blue
-
-hi def link		ExrString				Orange
+hi	def link		ExrOp						Operator
+hi def link		ExrKw						Keyword
+hi def link		ExrLit					Number
+hi def link		ExrGrp					Delimiter
+hi def link		ExrCtrlFlow				Conditional
+hi def link		ExrString				String
 
 hi def link		exrDefine				ExrKw
 hi def link		exrBecomes				ExrKw
@@ -42,6 +45,7 @@ hi def link		exrValGrp				ExrGrp
 
 hi def link		exrStore					ExrOp
 hi def link		exrExprEnd				ExrOp
+hi def link		exrNormOp				ExrOp
 
 hi def link		exrOutString			ExrString
 hi def link		exrOutMultiString		ExrString
