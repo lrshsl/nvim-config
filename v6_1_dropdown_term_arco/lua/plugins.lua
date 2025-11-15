@@ -59,7 +59,7 @@ local plugins = {
 
    --> Files
    require 'neotree',
-   -- require 'harpoon_conf',
+   require 'harpoon_conf',
    { 'aohoyd/broot.nvim',        opts = {} },
    { 'stevearc/oil.nvim',        opts = {},                             cmd = 'Oil' },
 

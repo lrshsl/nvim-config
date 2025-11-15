@@ -65,33 +65,39 @@ wk.add {
       { '<space>sl',       session_man.load_session,                                   desc = 'Load Session' },
       { '<space>sL',       session_man.load_last_session,                              desc = 'Load Last Session' },
       { '<space>sd',       session_man.delete_session,                                 desc = 'Delete Session' },
+      { '<space>sD', function()
+         session_man.delete_current_dir_session()
+         vim.cmd ":cd | bufdo bd!"
+         session_man.load_session()
+      end, desc = 'Delete Current Session' },
+      { '<space>sc', [[ <cmd>cd | bufdo bd!<cr> ]], desc = 'Close Session' },
 
       --> Lsp
-      { '<space>c',        group = 'code' },
-      { '<space>ca',       vim.lsp.buf.code_action,                                    desc = 'Code Action' },
-      { '<space>ch',       vim.lsp.buf.hover,                                          desc = 'Hover' },
-      { '<space>cf',       vim.lsp.buf.format,                                         desc = 'Format' },
-      { '<space>cd',       vim.diagnostic.open_float,                                  desc = 'Diagnostics' },
+      { '<space>c',  group = 'code' },
+      { '<space>ca', vim.lsp.buf.code_action,       desc = 'Code Action' },
+      { '<space>ch', vim.lsp.buf.hover,             desc = 'Hover' },
+      { '<space>cf', vim.lsp.buf.format,            desc = 'Format' },
+      { '<space>cd', vim.diagnostic.open_float,     desc = 'Diagnostics' },
       { '<space>cr', function()
          return ":IncRename " .. vim.fn.expand("<cword>")
       end, desc = 'Rename', expr = true },
 
-      { '<space>;u',  '<cmd>UndotreeToggle<cr><cmd>UndotreeFocus<cr>', desc = 'Undo Tree' },
-      { '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',                   desc = 'Open in Zathura' },
+      { '<space>;u',  '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
+      { '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',             desc = 'Open in Zathura' },
 
       --> Text editing
-      { '<space>u',   'viw~',                                          desc = 'lower <-> UPPER' },
-      { '<space>U',   'viW~',                                          desc = 'lower-word <-> UPPER-WORD' },
-      { '<space>y',   '~<Left>',                                       desc = '~' },
+      { '<space>u',   'viw~',                                    desc = 'lower <-> UPPER' },
+      { '<space>U',   'viW~',                                    desc = 'lower-word <-> UPPER-WORD' },
+      { '<space>y',   '~<Left>',                                 desc = '~' },
 
       { '<space>;c',  group = "Change case" },
-      { '<space>;cc', [[viw:s/\%V_\(\w\)/\u\1/g<CR>]],                 desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
-      { '<space>;cs', [[viw:s/\%V\(\u\)/_\l\1/g<CR>]],                 desc = "camelCase -> snake_case" },
+      { '<space>;cc', [[viw:s/\%V_\(\w\)/\u\1/g<CR>]],           desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
+      { '<space>;cs', [[viw:s/\%V\(\u\)/_\l\1/g<CR>]],           desc = "camelCase -> snake_case" },
 
       --> Buffer
-      { '<space>w',   ':wa<CR>',                                       desc = 'write buffers' },
-      { '<space>q',   ':q<CR>',                                        desc = 'quit buffer' },
-      { '<space>;q',  ':qa<CR>',                                       desc = 'quit all' },
+      { '<space>w',   ':wa<CR>',                                 desc = 'write buffers' },
+      { '<space>q',   ':q<CR>',                                  desc = 'quit buffer' },
+      { '<space>;q',  ':qa<CR>',                                 desc = 'quit all' },
 
       --> Search and replace
       {
@@ -128,16 +134,20 @@ wk.add {
       { '0', desc = 'Start of line' },
    },
 
-   { '-',  '<cmd>Oil<cr>',   desc = 'Oil' },
+   { '-',  require 'oil'.open, desc = 'Oil' },
+
+   { mode = { 'n', 'v', 'i' },
+      { '<S-CR>', CustomShiftCR }
+   },
 
    {
       mode = { 'n' },
-      { '<A-o>', '<cmd>ClangdSwitchSourceHeader<CR>', desc = 'Switch source/header' },
+      { '<A-h>', '<cmd>ClangdSwitchSourceHeader<CR>', desc = 'Switch source/header' },
    },
 
    --> Last macro
-   { '\\', '@@',             desc = 'Last macro',              mode = 'n' },
-   { '\\', ':normal @@<CR>', desc = 'Last macro on each line', mode = 'v' },
+   { '\\', '@@',               desc = 'Last macro',              mode = 'n' },
+   { '\\', ':normal @@<CR>',   desc = 'Last macro on each line', mode = 'v' },
 
    --> Insert mode mappings
    {
@@ -244,7 +254,7 @@ nnoremap <space>;P <cmd>pu!<CR>==$
 
 " Scroll using Ctrl "
 noremap <C-e> 10<C-e>
-noremap <C-i> 10<C-y>
+noremap <C-n> 10<C-y>
 
 " <C-u> is already mapped
 noremap <C-y> <C-d>
@@ -305,6 +315,9 @@ augroup CMD_RUN
 	autocmd BufNewFile,BufRead *.c,*.h            nnoremap <space>re   :!gcc -E -Wall -Wextra -std=c11 -pedantic -o c.out % ; ./c.out
 	autocmd BufNewFile,BufRead *.cpp,*.hh,*.hpp   nnoremap <space>re   :%!g++ -E -Wall -Wextra -std=c++17 -pedantic -o a.out % ; ./a.out
 
+	autocmd BufNewFile,BufRead *.hs               nnoremap <space>ra   :!stack run
+	autocmd BufNewFile,BufRead *.hs               nnoremap <space>rf   :!ghc % -no-keep-hi-files -no-keep-o-files ; %:r
+
 	" Python, js, go "
 	autocmd BufNewFile,BufRead *.py               nnoremap <space>ra   :!python main.py
 	autocmd BufNewFile,BufRead *.py               nnoremap <space>cf   :!autopep8 -i %<CR>
@@ -352,42 +365,36 @@ local function exactly(keys)
    return vim.api.nvim_replace_termcodes(keys, true, true, true)
 end
 
-local function get_shift_cr(language)
-   if language == 'rust' or language == 'c' or language == 'cpp' then
-      print 'rust'
-      return "\n;<left>", " // "
-   elseif language == "exas" then
-      return "\n,<left>", " | "
-   elseif language == "typst" then
-      return "\n\n<up><tab>"
-   else
-      return "\n", "\n"
+local function contains(t, key)
+   for k, _ in pairs(t) do
+      if k == key then
+         return true
+      end
    end
+   return false
+end
+
+local function get_line_ending(ft)
+   if contains({ 'rust', 'c', 'cpp' }, ft) then
+      return ';'
+   end
+   return ''
 end
 
 -- Function to map Shift-CR to custom behavior
 function CustomShiftCR()
-   local newline, begin_comment = get_shift_cr(vim.bo.filetype)
-
-   -- Get the current line and cursor position
-   local line = vim.api.nvim_get_current_line()
-   local col = vim.fn.col('.')
-
-   -- Temporarily remove comment continuation
-   vim.opt_local.formatoptions = {}
-
-   -- If at the end of the line, begin a new line
-   local out = newline
-   if col <= #line then
-      -- Else insert a comment
-      out = '<esc>A' .. begin_comment
+   local ft = vim.bo.filetype
+   print(ft)
+   if ft == 'typst' then
+      vim.api.nvim_feedkeys(exactly '<cr><cr><up><tab>')
+      return
    end
-   vim.api.nvim_feedkeys(exactly(out), 'n', false)
+
+   local ending = get_line_ending(ft)
+   vim.api.nvim_feedkeys(exactly '<down>' .. ending .. '<left>' * #ending, 'n', false)
 end
 
 vim.cmd [[
-
-au FileType rust,c,cpp,exas inoremap <S-CR> <cmd>lua CustomShiftCR()<CR>
 
 " Codeium "
 "imap <script><silent><nowait><expr> <C-y> codeium#Accept()

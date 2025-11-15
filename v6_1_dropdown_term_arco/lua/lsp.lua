@@ -31,7 +31,8 @@ return {
          'nvim-telescope/telescope.nvim',
       },
 
-      -- Configure Lsp Zero, Mason and Autocompletion directly after each other (order matters!)
+      -- Configure Lsp Zero, Mason and Autocompletion directly after each other
+      -- (order matters!)
       config = function()
          local lsp_zero = require 'lsp-zero'
 
@@ -133,7 +134,8 @@ return {
             },
             keyword_length = 3,
             sources = {
-               { name = 'luasnip',  keyword_length = 1, option = { show_condition = false, show_autosnippets = false } },
+               { name = 'luasnip', keyword_length = 1, option = {
+                  show_condition = false, show_autosnippets = false } },
                { name = 'codeium',  keyword_length = 2, max_item_count = 3 },
                { name = 'path',     keyword_length = 2 },
                { name = 'nvim_lsp', keyword_length = 2 },
