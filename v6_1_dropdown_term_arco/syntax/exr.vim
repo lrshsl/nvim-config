@@ -4,7 +4,7 @@
 if v:version < 600
 	syntax clear
 elseif exists('b:current_syntax')
-	" finish
+	finish
 endif
 
 syn keyword		exrDefine				map df
