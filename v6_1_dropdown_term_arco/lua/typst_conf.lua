@@ -18,6 +18,7 @@ return {
             },
             ft = { "*.tex", "*.md", "*.typ" },
          },
+         ft = 'typst'
       },
    },
    ft = { 'typst' },
@@ -41,7 +42,7 @@ return {
              snippets = {
                 enable = true,
                 exclude = {
-                   'vv', 'st', 'ip', 'ib', 'el', 'ep',
+                   'vv', 'st', 'ip', 'ib', 'el', 'ep', 'iv',
                 },
              },
           }

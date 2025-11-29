@@ -35,6 +35,8 @@ wk.add {
       -- { '<leader>g;', function() harpoon:list():select(4) end },
 
       --> Find
+      { '<space>ft',       telescope.builtin,                                          desc = 'Find Telescope commands' },
+
       { '<space>f',        group = 'find' },
       { '<space>fd',       telescope.diagnostics,                                      desc = 'Find diagnostics' },
       { '<space>fr',       telescope.lsp_references,                                   desc = 'Find References' },
@@ -42,15 +44,14 @@ wk.add {
 
       { '<space>fg',       telescope.live_grep,                                        desc = 'Live grep' },
 
-      { '<space>ft',       telescope.find_files,                                       desc = 'Telescope find_files' },
       { '<space>ff',       '<cmd>BrootWorkingDir<CR>',                                 desc = 'Find Files' },
       { '<space>fl',       '<cmd>BrootCurrentDir<CR>',                                 desc = 'Find local Files' },
-      { '<space>fa',       '<cmd>Telescope find_files hidden=true<cr>',                desc = 'Find All Files (also hidden)' },
-      { '<space>fA',       '<cmd>Telescope find_files hidden=true no_ignore=true<cr>', desc = 'Find All Files (hidden & ignored)' },
+      { '<space>fa',       '<cmd>Telescope find_files hidden=true<CR>',                desc = 'Find All Files (also hidden)' },
+      { '<space>fA',       '<cmd>Telescope find_files hidden=true no_ignore=true<CR>', desc = 'Find All Files (hidden & ignored)' },
       { '<space>fb',       telescope.buffers,                                          desc = 'Find Buffers' },
       { '<space>fo',       telescope.oldfiles,                                         desc = 'Open Recent File' },
 
-      { '<space>fs',       telescope.lsp_document_symbols,                             desc = 'Find Document Symbols' },
+      { '<space>fs',       '<cmd>Vista finder<CR>',                                    desc = 'Find Document Symbols' },
       { '<space>fS',       telescope.symbols,                                          desc = 'Symbols' },
       { '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Workspace Symbols' },
 
@@ -58,6 +59,8 @@ wk.add {
       { '<space>g',        group = "git" },
       { '<space>g.',       '<cmd>Git<CR>',                                             desc = 'Git' },
       { '<space>g<space>', ':Git<space>',                                              desc = ':Git <CMD>' },
+
+      { '<space>a',        group = "Harpoon" },
 
       --> Session
       { '<space>s',        group = 'session' },
@@ -83,7 +86,8 @@ wk.add {
       end, desc = 'Rename', expr = true },
 
       { '<space>;u',  '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
-      { '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',             desc = 'Open in Zathura' },
+      { '<space>;z',  '<cmd>!zathura %:r.pdf & > /dev/null<cr>', desc = 'Open in Zathura' },
+      { '<space>;v',  '<cmd>Vista focus<cr>',                    desc = 'Focus / Open Vista' },
 
       --> Text editing
       { '<space>u',   'viw~',                                    desc = 'lower <-> UPPER' },
@@ -153,32 +157,29 @@ wk.add {
    {
       mode = { 'i' },
       name = 'Abbreviations, umlauts and accents',
-      { ';ae',  'ä',            desc = 'ä', },
-      { ';Ae',  'Ä',            desc = 'Ä', },
-      { ';AE',  'Ä',            desc = 'Ä', },
+      { ';ae',  'ä', desc = 'ä', },
+      { ';Ae',  'Ä', desc = 'Ä', },
+      { ';AE',  'Ä', desc = 'Ä', },
 
-      { ';oe',  'ö',            desc = 'ö', },
-      { ';Oe',  'Ö',            desc = 'Ö', },
-      { ';OE',  'Ö',            desc = 'Ö', },
+      { ';oe',  'ö', desc = 'ö', },
+      { ';Oe',  'Ö', desc = 'Ö', },
+      { ';OE',  'Ö', desc = 'Ö', },
 
-      { ';ue',  'ü',            desc = 'ü', },
-      { ';Ue',  'Ü',            desc = 'Ü', },
-      { ';UE',  'Ü',            desc = 'Ü', },
+      { ';ue',  'ü', desc = 'ü', },
+      { ';Ue',  'Ü', desc = 'Ü', },
+      { ';UE',  'Ü', desc = 'Ü', },
 
-      { ';ee',  'é',            desc = 'é', },
-      { ';eg',  'è',            desc = 'è', },
-      { ';ec',  'ê',            desc = 'ê', },
-      { ';cc',  'ç',            desc = 'ç', },
-      { ';ed',  'ë',            desc = 'ë', },
+      { ';ee',  'é', desc = 'é', },
+      { ';eg',  'è', desc = 'è', },
+      { ';ec',  'ê', desc = 'ê', },
+      { ';cc',  'ç', desc = 'ç', },
+      { ';ed',  'ë', desc = 'ë', },
 
-      { ';ag',  'à',            desc = 'à', },
+      { ';ag',  'à', desc = 'à', },
 
-      { ';yd',  'ÿ',            desc = 'ÿ', },
-      { ';aae', 'æ',            desc = 'æ', },
-      { ';ooe', 'œ',            desc = 'œ', },
-
-      { ';str', "&'static str", desc = "&'static str" },
-      { ';l',   "'",            desc = "lifetime tick (')" }, -- Lifetimes (and still getting auto-close for '')
+      { ';yd',  'ÿ', desc = 'ÿ', },
+      { ';aae', 'æ', desc = 'æ', },
+      { ';ooe', 'œ', desc = 'œ', },
    }
 }
 
@@ -310,6 +311,7 @@ augroup CMD_RUN
 	autocmd BufNewFile,BufRead *.c,*.h,Makefile   nnoremap <space>ra   :!make<space>
 	autocmd BufNewFile,BufRead *.cpp,*.hh,*.hpp   nnoremap <space>ra   :!make<space>
 	autocmd BufNewFile,BufRead *.c,*.h            nnoremap <space>rf   :!gcc -Wall -Wextra -std=c11 -pedantic -o c.out % ; ./c.out
+	autocmd BufNewFile,BufRead *.c,*.h            setlocal ft=c
 	autocmd BufNewFile,BufRead *.cpp,*.hh,*.hpp   nnoremap <space>rf   :!g++ -Wall -Wextra -std=c++17 -pedantic -o a.out % ; ./a.out
 
 	autocmd BufNewFile,BufRead *.c,*.h            nnoremap <space>re   :!gcc -E -Wall -Wextra -std=c11 -pedantic -o c.out % ; ./c.out
@@ -424,6 +426,10 @@ noremap I L
 noremap L I
 
 " Needed for some reason
+nnoremap dl dl
+nnoremap di di
+nnoremap vl vl
+nnoremap vi vi
 nnoremap cl cl
 nnoremap ci ci
 

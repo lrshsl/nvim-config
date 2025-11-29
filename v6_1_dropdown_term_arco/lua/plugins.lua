@@ -35,7 +35,7 @@ local plugins = {
    require 'autopairs_conf',
 
    --> Undotree
-   { 'mbbill/undotree',         lazy = false },
+   { 'mbbill/undotree',         cmd = 'UndotreeToggle' },
 
    --> Sneak around in a file with s/S
    'justinmk/vim-sneak',
@@ -49,7 +49,7 @@ local plugins = {
    require 'typst_conf',
 
    --> AI helper
-   { 'exafunction/codeium.nvim', opts = {},                             cmd = "Codeium" },
+   { 'exafunction/codeium.nvim', opts = {},           cmd = 'Codeium' },
 
    --> Space(macs|vim)-like keybinding preview
    require 'which_key',
@@ -60,19 +60,31 @@ local plugins = {
    --> Files
    require 'neotree',
    require 'harpoon_conf',
-   { 'aohoyd/broot.nvim',        opts = {} },
-   { 'stevearc/oil.nvim',        opts = {},                             cmd = 'Oil' },
+   { 'aohoyd/broot.nvim',        opts = {}, },
+   { 'stevearc/oil.nvim',        opts = {},           cmd = 'Oil' },
 
-   { 'jakemason/ouroboros',      dependencies = 'nvim-lua/plenary.nvim' },
+   { 'jakemason/ouroboros',      ft = { 'c', 'cpp' }, dependencies = 'nvim-lua/plenary.nvim' },
 
    --> Fuzzy finders
    require 'telescope_conf',
+   { 'junegunn/fzf',           lazy = false },
+
+   --> Document Symbols
+   {
+      'liuchengxu/vista.vim',
+      cmp = 'Vista',
+      config = function()
+         vim.g.vista_default_executive = 'nvim_lsp'
+         vim.g.vista_sidebar_width = 40
+         vim.g.close_on_jump = 1
+      end
+   },
 
    --> Zen mode
    { 'junegunn/goyo.vim',      cmd = 'Goyo' },
    { 'junegunn/limelight.vim', cmd = 'Limelight' },
    { 'EdenEast/nightfox.nvim', lazy = false },
-   --{ 'sainnhe/sonokai',             lazy = true },
+   -- { 'sainnhe/sonokai',             lazy = true },
 }
 
 require 'lazy'.setup(plugins, {})

@@ -26,6 +26,9 @@ augroup typst_maps
    "au BufEnter,BufRead,BufNewFile *.typ        inoremap disc discontinuous
    "au BufEnter,BufRead,BufNewFile *.typ        inoremap fn function
    "au BufEnter,BufRead,BufNewFile *.typ        inoremap <S-CR> <CR><CR><up><tab>
+   au BufEnter,BufRead,BufNewFIle *.rs          inoremap ;str &'static str
+   au BufEnter,BufRead,BufNewFIle *.rs          inoremap ;l '
+
 augroup END
 ]]
 
@@ -42,4 +45,5 @@ ls.add_snippets('typst', {
    tp.snip('lg', 'logarithm', {}, tp.in_markup),
    tp.snip('eva', 'eigenvalue', {}, tp.in_markup),
    tp.snip('evv', 'eigenvector', {}, tp.in_markup),
+   tp.snip('inv', '^(-1)', {}, tp.in_math),
 })
