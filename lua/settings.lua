@@ -101,6 +101,7 @@ function SearchTemplate()
    local template_path = nvim_base_path .. "/vim_templates/"
    AskUserPickFile(template_path, function(path)
       local name = strip_prefix(path, template_path)
+      name = name:sub(0, -(".template"):len() - 1) -- strip suffix
       LoadTemplate(name)
    end)
 end
