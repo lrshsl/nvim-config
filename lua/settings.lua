@@ -3,6 +3,7 @@ NumbersOn = false
 vim.g.neovide_opacity = 0.9
 FontName = 'JetBrainsMono\\ NFM\\ ExtraLight'
 FontSize = 12
+local nvim_base_path = os.getenv('HOME') .. '/.config/nvim'
 
 require 'dropdown_terminal'
 TermLoadPreset(1)
@@ -75,12 +76,38 @@ augroup FILE_TEMPLATES_AUGROUP
 	au BufNewFile header.h                   :lua LoadTemplate("c/header.h")
 
 	au BufNewFile .gitignore                 :lua LoadTemplate("general/gitignore")
+
+   au BufNewFile *.typ                      :lua LoadTemplate("typst/base")
+   au BufNewFile summary.typ                :lua LoadTemplate("typst/summary") ; InsertSubstitution('Course')
 augroup END
 ]]
 
+local function strip_prefix(path, prefix)
+   -- Ensure prefix ends with "/"
+   if not prefix:match("/$") then
+      prefix = prefix .. "/"
+   end
+   -- Remove the prefix
+   if path:sub(1, #prefix) == prefix then
+      return path:sub(#prefix + 1)
+   else
+      return path
+   end
+end
+
+require 'user_pickers'
+
+function SearchTemplate()
+   local template_path = nvim_base_path .. "/vim_templates/"
+   AskUserPickFile(template_path, function(path)
+      local name = strip_prefix(path, template_path)
+      LoadTemplate(name)
+   end)
+end
+
 function LoadTemplate(name)
-   local base_path = "$HOME/.config/nvim/vim_templates/"
-   vim.cmd("0r " .. base_path .. name .. ".template")
+   local template_path = nvim_base_path .. "/vim_templates/"
+   vim.cmd("0r " .. template_path .. name .. ".template")
 end
 
 function InsertSubstitution(pattern)
