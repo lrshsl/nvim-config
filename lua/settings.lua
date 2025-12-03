@@ -66,17 +66,22 @@ augroup END
 augroup FILE_TEMPLATES_AUGROUP
 	au!
 
-	au BufNewFile Makefile,makefile          0r ~/.config/nvim/vim_templates/general/makefile.template | lua InsertSubstitution('Project Name')
-	au BufNewFile Doxyfile,makefile          0r ~/.config/nvim/vim_templates/general/doxyfile.template | lua InsertSubstitution('Project Name')
-	au BufNewFile .clang-format              0r ~/.config/nvim/templates/c/clang-format.template
+	au BufNewFile Makefile,makefile          :lua LoadTemplate("c/makefile") ; InsertSubstitution('Project Name')
+	au BufNewFile Doxyfile,doxyfile          :lua LoadTemplate("c/doxyfile") ; InsertSubstitution('Project Name')
+	au BufNewFile .clang-format              :lua LoadTemplate("c/clang-format")
 
-	au BufNewFile *.h                        0r ~/.config/nvim/templates/c/h.template | lua InsertSubstitution('filename')
-	"au BufNewFile *.c                        0r ~/.config/nvim/templates/c/c.template | lua InsertSubstitution('filename')
-	au BufNewFile header.h                   0r ~/.config/nvim/templates/c/header.h.template
+	au BufNewFile *.h                        :lua LoadTemplate("c/h") ; InsertSubstitution('filename')
+	"au BufNewFile *.c                        :lua LoadTemplate("c/c.template") | lua InsertSubstitution('filename')
+	au BufNewFile header.h                   :lua LoadTemplate("c/header.h")
 
-	au BufNewFile .gitignore                 :lua LoadTemplate("general/gitignore.template")
+	au BufNewFile .gitignore                 :lua LoadTemplate("general/gitignore")
 augroup END
 ]]
+
+function LoadTemplate(name)
+   local base_path = "$HOME/.config/nvim/vim_templates/"
+   vim.cmd("0r " .. base_path .. name .. ".template")
+end
 
 function InsertSubstitution(pattern)
    local go_left = vim.api.nvim_replace_termcodes('<left><left>', true, true, true)
