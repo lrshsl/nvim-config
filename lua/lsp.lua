@@ -109,7 +109,8 @@ return {
          vim.cmd "imap <C-y> <C-y>"
          local mappings = {
             ['<C-Space>'] = cmp.mapping(cmp.complete, { 'i', 'c', 's' }),
-            ['<C-y>'] = cmp.mapping(function() cmp.confirm { select = true } end, { 'i', 'c', 's' }),
+            ['<C-y>'] = cmp.mapping(function() cmp.confirm { select = true } end),
+            ['<right>'] = cmp.mapping(function() cmp.confirm { select = true } end),
             -- ['<Tab>'] = cmp.mapping.confirm { select = true },
             ['<C-c>'] = cmp.mapping(cmp.abort, { 'i', 'c', 's' }),
             -- Backup for <C-e>

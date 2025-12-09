@@ -99,7 +99,8 @@ wk.add {
       { '<space>;cs', [[viw:s/\%V\(\u\)/_\l\1/g<CR>]],           desc = "camelCase -> snake_case" },
 
       --> Buffer
-      { '<space>w',   ':wa<CR>',                                 desc = 'write buffers' },
+      { '<space>w',   ':w<CR>',                                  desc = 'write buffer' },
+      { '<space>;w',  ':wa<CR>',                                 desc = 'write buffers' },
       { '<space>q',   ':q<CR>',                                  desc = 'quit buffer' },
       { '<space>;q',  ':qa<CR>',                                 desc = 'quit all' },
 
