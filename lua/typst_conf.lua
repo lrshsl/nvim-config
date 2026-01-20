@@ -1,25 +1,23 @@
 return {
    'arne314/typstar',
    dependencies = {
-      {
-         'pxwg/math-conceal.nvim',
-         build = "make lua51",
-         main = "math-conceal",
-         --- @type LaTeXConcealOptions
-         opts = {
-            enabled = true,
-            conceal = {
-               "greek",
-               "script",
-               "math",
-               "font",
-               "delim",
-               "phy",
-            },
-            ft = { "*.tex", "*.md", "*.typ" },
-         },
-         ft = 'typst'
-      },
+      -- {
+      --    "pxwg/math-conceal.nvim",
+      --    event = "VeryLazy",
+      --    main = "math-conceal",
+      --    --- @type LaTeXConcealOptions
+      --    opts = {
+      --       conceal = {
+      --          "greek",
+      --          "script",
+      --          "math",
+      --          "font",
+      --          "delim",
+      --          "phy",
+      --       },
+      --       ft = { "plaintex", "tex", "context", "bibtex", "markdown", "typst" },
+      --    },
+      -- }
    },
    ft = { 'typst' },
    keys = {
@@ -42,7 +40,7 @@ return {
              snippets = {
                 enable = true,
                 exclude = {
-                   'vv', 'st', 'ip', 'ib', 'el', 'ep', 'iv',
+                   'vv', 'st', 'ip', 'ib', 'el', 'ep', 'iv', 'sq', 'rt',
                 },
              },
           }

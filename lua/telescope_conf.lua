@@ -27,5 +27,6 @@ return {
       }
       ts.load_extension('ui-select')
       ts.load_extension('themes')
+      ts.load_extension('noice')
    end,
 }

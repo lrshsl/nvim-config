@@ -25,6 +25,7 @@ require 'mappings'
 
 require 'settings'
 require 'snippets'
+require 'custom_filetypes'
 
 vim.cmd [[
 if exists('g:neovide')

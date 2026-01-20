@@ -83,6 +83,13 @@ return {
          }
 
          -- Mason
+         vim.lsp.config('mlir', { cmd = { 'mlir-lsp-server' } })
+         -- vim.api.nvim_create_autocmd({'BufEnter'}, {
+         --    pattern = {'*.mlir'},
+         --    callback = function(_)
+         --       vim.lsp.enable('mlir')
+         --    end
+         -- })
          require 'mason'.setup {}
          require 'mason-lspconfig'.setup {
             ensure_installed = { 'lua_ls', 'rust_analyzer', 'clangd', },
@@ -109,8 +116,16 @@ return {
          vim.cmd "imap <C-y> <C-y>"
          local mappings = {
             ['<C-Space>'] = cmp.mapping(cmp.complete, { 'i', 'c', 's' }),
-            ['<C-y>'] = cmp.mapping(function() cmp.confirm { select = true } end),
-            ['<right>'] = cmp.mapping(function() cmp.confirm { select = true } end),
+            ['<C-y>'] = cmp.mapping(function()
+               cmp.confirm {
+                  select = true, behavior = cmp.ConfirmBehavior.Insert
+               }
+            end),
+            ['<right>'] = cmp.mapping(function()
+               cmp.confirm {
+                  select = true, behavior = cmp.ConfirmBehavior.Insert
+               }
+            end),
             -- ['<Tab>'] = cmp.mapping.confirm { select = true },
             ['<C-c>'] = cmp.mapping(cmp.abort, { 'i', 'c', 's' }),
             -- Backup for <C-e>

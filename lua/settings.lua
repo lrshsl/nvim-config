@@ -33,7 +33,11 @@ set nu rnu
 " Colors "
 "let g:sonokai_transparent_background = 1
 colorscheme carbonfox " AFTER other settings
-hi NormalFloat guibg=#0001
+hi NormalFloat guibg=#000000
+hi Normal guibg=#000000
+hi NormalNC guibg=#000404
+hi CursorLine guibg=#101a1a
+hi Conceal guifg=#ffffff
 
 "colorscheme bordeau
 
@@ -44,6 +48,7 @@ set et! ts=3 sts=3 sw=3
 
 set foldmethod=marker
 set listchars=tab:-->,trail:~,leadmultispace:··\|,nbsp:¤
+set cursorline
 
 augroup TAB_VS_SPACES_AUGROUP
 	autocmd!
@@ -160,7 +165,7 @@ function BgSetTransparencyCurry(val)
 end
 
 function ToggleTransparentBg()
-   if BgTransparent == true then
+   if BgTransparent then
       BgSetTransparencyCurry(0)()
    else
       BgSetTransparencyCurry(1)()

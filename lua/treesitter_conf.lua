@@ -6,7 +6,7 @@ return {
 
       configs.setup({
          ensure_installed = {
-            "lua", "vim", "vimdoc",
+            "lua", "vim", "vimdoc", "regex", "markdown", "markdown_inline",
             "c", "rust",
             "bash", "fish",
             "html" },

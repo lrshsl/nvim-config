@@ -22,7 +22,7 @@ local plugins = {
    --> Platformio
    -- { 'normen/vim-pio',              ft = { 'c', 'cpp' } },
    { 'benknoble/vim-racket',        ft = 'racket' },
-   { 'rhysd/reply.vim',             ft = 'racket' },
+   --{ 'rhysd/reply.vim',             ft = 'racket' },
 
    --> Text editing
    require 'treesitter_conf',
@@ -53,6 +53,7 @@ local plugins = {
 
    --> Space(macs|vim)-like keybinding preview
    require 'which_key',
+   require 'noice_conf',
 
    --> Session manager
    require 'session_manager_conf',
@@ -61,7 +62,7 @@ local plugins = {
    require 'neotree',
    require 'harpoon_conf',
    { 'aohoyd/broot.nvim',        opts = {}, },
-   { 'stevearc/oil.nvim',        opts = {},           cmd = 'Oil' },
+   { 'stevearc/oil.nvim',        opts = {},           cmd = 'Oil', },
 
    { 'jakemason/ouroboros',      ft = { 'c', 'cpp' }, dependencies = 'nvim-lua/plenary.nvim' },
 

@@ -29,7 +29,7 @@ return {
       npairs.get_rules("'")[1].not_filetypes = { 'rust', 'scheme', 'lisp', 'racket' }
       npairs.add_rules(
          {
-            Rule('$', '$', { 'typ', 'typst', 'tex', 'latex' })
+            Rule('$', '$', { 'typ', 'typst', 'tex' })
                 :with_move(cond.always)
          }
       )

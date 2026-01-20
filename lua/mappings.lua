@@ -1,7 +1,7 @@
 local wk = require 'which-key'
 local telescope = require 'telescope.builtin'
 local session_man = require 'session_manager'
--- local noice = require 'noice'
+local noice = require 'noice'
 -- local harpoon = require 'harpoon'
 
 wk.add {
@@ -10,14 +10,15 @@ wk.add {
       { 'gh',        '<cmd>Ouroboros<CR>',         desc = 'Goto header/source' },
 
       { '<space>m',  group = 'messages' },
-      { '<space>ml', '<cmd>Noice last<CR>',        desc = 'Messages' },
+      { '<space>ml', '<cmd>Noice last<CR>',        desc = 'Last message' },
       { '<space>mm', '<cmd>Noice history<CR>',     desc = 'History' },
       { '<space>md', '<cmd>Noice diagnostics<CR>', desc = 'Diagnostics' },
-      { '<space>me', '<cmd>Noice errors<CR>',      desc = 'Noice Errors' },
+      { '<space>me', '<cmd>Noice errors<CR>',      desc = 'Errors' },
+      { '<space>m;', '<cmd>Noice dismiss<CR>',     desc = 'Dismiss' },
 
       --> File navigation
       { '<space>o',  group = 'open' },
-      { '<space>oo', '<cmd>Neotree toggle<cr>',    desc = 'File Tree' },
+      { '<space>oo', '<cmd>Neotree toggle<cr>',    desc = 'File tree' },
       { '<space>od',
          '<cmd>Trouble lsp_errors toggle focus=true win.position=right<CR>',
          desc = 'Errors', silent = true, },
@@ -27,6 +28,7 @@ wk.add {
       { '<space>os',
          ':Trouble symbols toggle focus=true win.position=right<CR>',
          desc = 'Bufffer symbols', silent = true, },
+
       -- { '<leader>gh', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
       -- { '<leader>ga', function() harpoon:list():append() end },
       -- { '<leader>gj', function() harpoon:list():select(1) end },
@@ -86,7 +88,7 @@ wk.add {
       end, desc = 'Rename', expr = true },
 
       { '<space>;u',  '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
-      { '<space>;z',  '<cmd>!zathura %:r.pdf & > /dev/null<cr>', desc = 'Open in Zathura' },
+      { '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',             desc = 'Open in Zathura' },
       { '<space>;v',  '<cmd>Vista focus<cr>',                    desc = 'Focus / Open Vista' },
 
       --> Text editing
@@ -361,6 +363,8 @@ augroup CMD_RUN
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rf   :!typst compile %
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>ra   :!typst watch % &
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rn   :!typst c % --root ../../
+
+	autocmd BufNewFile,BufRead *.exr              nnoremap <space>rf   :!cargo r -- expand %
 augroup END
 ]]
 

@@ -46,4 +46,5 @@ ls.add_snippets('typst', {
    tp.snip('eva', 'eigenvalue', {}, tp.in_markup),
    tp.snip('evv', 'eigenvector', {}, tp.in_markup),
    tp.snip('inv', '^(-1)', {}, tp.in_math),
+   tp.snip('dd', 'dot.double', {}, tp.in_math),
 })
