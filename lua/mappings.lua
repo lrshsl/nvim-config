@@ -41,7 +41,8 @@ wk.add {
 
       { '<space>f',        group = 'find' },
       { '<space>fd',       telescope.diagnostics,                                      desc = 'Find diagnostics' },
-      { '<space>fr',       telescope.lsp_references,                                   desc = 'Find References' },
+      { '<space>fr',       telescope.lsp_incoming_calls,                               desc = 'Find References' },
+      { '<space>fR',       telescope.lsp_references,                                   desc = 'Find References' },
       { '<space>fh',       telescope.help_tags,                                        desc = 'Find Help' },
 
       { '<space>fg',       telescope.live_grep,                                        desc = 'Live grep' },
@@ -53,9 +54,9 @@ wk.add {
       { '<space>fb',       telescope.buffers,                                          desc = 'Find Buffers' },
       { '<space>fo',       telescope.oldfiles,                                         desc = 'Open Recent File' },
 
-      { '<space>fs',       '<cmd>Vista finder<CR>',                                    desc = 'Find Document Symbols' },
-      { '<space>fS',       telescope.symbols,                                          desc = 'Symbols' },
-      { '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Workspace Symbols' },
+      { '<space>fs',       telescope.symbols,                                          desc = 'Find Symbols' },
+      { '<space>fS',       telescope.workspace_symbols,                                desc = 'Workspace Symbols' },
+      { '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Dyn Workspace Symbols' },
 
       --> Git
       { '<space>g',        group = "git" },
@@ -75,17 +76,15 @@ wk.add {
          vim.cmd ":cd | bufdo bd!"
          session_man.load_session()
       end, desc = 'Delete Current Session' },
-      { '<space>sc', [[ <cmd>cd | bufdo bd!<cr> ]], desc = 'Close Session' },
+      { '<space>sc',  [[ <cmd>cd | bufdo bd!<cr> ]],             desc = 'Close Session' },
 
       --> Lsp
-      { '<space>c',  group = 'code' },
-      { '<space>ca', vim.lsp.buf.code_action,       desc = 'Code Action' },
-      { '<space>ch', vim.lsp.buf.hover,             desc = 'Hover' },
-      { '<space>cf', vim.lsp.buf.format,            desc = 'Format' },
-      { '<space>cd', vim.diagnostic.open_float,     desc = 'Diagnostics' },
-      { '<space>cr', function()
-         return ":IncRename " .. vim.fn.expand("<cword>")
-      end, desc = 'Rename', expr = true },
+      { '<space>c',   group = 'code' },
+      { '<space>ca',  vim.lsp.buf.code_action,                   desc = 'Code Action' },
+      { '<space>ch',  vim.lsp.buf.hover,                         desc = 'Hover' },
+      { '<space>cf',  vim.lsp.buf.format,                        desc = 'Format' },
+      { '<space>cd',  vim.diagnostic.open_float,                 desc = 'Diagnostics' },
+      { '<space>cr',  vim.lsp.buf.rename,                        desc = 'Rename' },
 
       { '<space>;u',  '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
       { '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',             desc = 'Open in Zathura' },
@@ -198,7 +197,7 @@ Nmap('<C-left>', ':vertical resize-2<CR>')
 Nmap('<C-right>', ':vertical resize+2<CR>')
 
 --> Terminal
-require 'dropdown_terminal'
+require 'custom_code.dropdown_terminal'
 
 -- Tmap('<C-up>', '<cmd>res +5<CR>')
 -- Tmap('<C-down>', '<cmd>res -5<CR>')

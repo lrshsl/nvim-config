@@ -47,10 +47,12 @@ return {
             require 'which-key'.add {
                mode = { 'n' },
                { 'g',  group = 'goto' },
-               { 'gd', vim.lsp.buf.definition,     desc = 'Goto definition' },
-               { 'gD', vim.lsp.buf.declaration,    desc = 'Goto declaration' },
-               { 'gi', vim.lsp.buf.implementation, desc = 'Goto implementation' },
-               { 'gr', vim.lsp.buf.definition,     desc = 'Goto references' },
+               { 'gd', vim.lsp.buf.definition,      desc = 'Goto definition' },
+               { 'gD', vim.lsp.buf.declaration,     desc = 'Goto declaration' },
+               { 'gi', vim.lsp.buf.implementation,  desc = 'Goto implementation' },
+               { 'gt', vim.lsp.buf.type_definition, desc = 'Goto type' },
+               { 'gr', vim.lsp.buf.incoming_calls,  desc = 'Goto incoming calls' },
+               { 'gR', vim.lsp.buf.references,      desc = 'Goto references' },
                -- Telescope handles other goto stuff
             }
             -- Navigate snippets
@@ -115,7 +117,7 @@ return {
          -- end, { expr = true })
          vim.cmd "imap <C-y> <C-y>"
          local mappings = {
-            ['<C-Space>'] = cmp.mapping(cmp.complete, { 'i', 'c', 's' }),
+            ['<C-Space>'] = cmp.complete,
             ['<C-y>'] = cmp.mapping(function()
                cmp.confirm {
                   select = true, behavior = cmp.ConfirmBehavior.Insert
@@ -146,7 +148,7 @@ return {
          }
          cmp.setup {
             experimental = {
-               ghost_text = true,
+               ghost_text = false,
             },
             keyword_length = 3,
             sources = {

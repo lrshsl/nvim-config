@@ -25,14 +25,14 @@ local plugins = {
    --{ 'rhysd/reply.vim',             ft = 'racket' },
 
    --> Text editing
-   require 'treesitter_conf',
+   require 'plugin.treesitter_conf',
    'tpope/vim-fugitive',
    'tpope/vim-surround',
    'tpope/vim-repeat',
    'tpope/vim-commentary',
    { "smjonas/inc-rename.nvim", opts = { show_message = false, } },
 
-   require 'autopairs_conf',
+   require 'plugin.autopairs_conf',
 
    --> Undotree
    { 'mbbill/undotree',         cmd = 'UndotreeToggle' },
@@ -42,48 +42,54 @@ local plugins = {
 
    --> LSP
    require 'lsp',
-   require 'ouroboros_conf',
+   require 'plugin.ouroboros_conf',
 
    --> Latex
    -- require 'latex',
    require 'typst_conf',
 
    --> AI helper
-   { 'exafunction/codeium.nvim', opts = {},           cmd = 'Codeium' },
+   require 'plugin.codeium',
+   require 'plugin.99_ai',
 
    --> Space(macs|vim)-like keybinding preview
-   require 'which_key',
-   require 'noice_conf',
+   require 'plugin.which_key',
+   require 'plugin.noice_conf',
 
    --> Session manager
-   require 'session_manager_conf',
+   require 'plugin.session_manager_conf',
 
    --> Files
-   require 'neotree',
-   require 'harpoon_conf',
-   { 'aohoyd/broot.nvim',        opts = {}, },
-   { 'stevearc/oil.nvim',        opts = {},           cmd = 'Oil', },
-
-   { 'jakemason/ouroboros',      ft = { 'c', 'cpp' }, dependencies = 'nvim-lua/plenary.nvim' },
+   require 'plugin.neotree',
+   require 'plugin.harpoon_conf',
+   { 'aohoyd/broot.nvim', opts = {}, },
+   { 'stevearc/oil.nvim', opts = {}, cmd = 'Oil', },
 
    --> Fuzzy finders
-   require 'telescope_conf',
-   { 'junegunn/fzf',           lazy = false },
+   require 'plugin.telescope_conf',
+   { 'junegunn/fzf',      lazy = false },
 
    --> Document Symbols
    {
       'liuchengxu/vista.vim',
       cmp = 'Vista',
-      config = function()
+      init = function()
          vim.g.vista_default_executive = 'nvim_lsp'
          vim.g.vista_sidebar_width = 40
          vim.g.close_on_jump = 1
-      end
+      end,
    },
 
    --> Zen mode
-   { 'junegunn/goyo.vim',      cmd = 'Goyo' },
-   { 'junegunn/limelight.vim', cmd = 'Limelight' },
+   { 'junegunn/goyo.vim', cmd = 'Goyo' },
+   {
+      'junegunn/limelight.vim',
+      cmd = 'Limelight',
+      init = function()
+         vim.g.limelight_bop = '^\\n\\n'
+         vim.g.limelight_eop = '^\\n\\n'
+      end
+   },
    { 'EdenEast/nightfox.nvim', lazy = false },
    -- { 'sainnhe/sonokai',             lazy = true },
 }

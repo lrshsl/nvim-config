@@ -1,11 +1,12 @@
 BgTransparent = true
 NumbersOn = false
+LimelightMode = 'DoubleNewline'
 vim.g.neovide_opacity = 0.9
 FontName = 'JetBrainsMono\\ NFM\\ ExtraLight'
 FontSize = 12
 local nvim_base_path = os.getenv('HOME') .. '/.config/nvim'
 
-require 'dropdown_terminal'
+require 'custom_code.dropdown_terminal'
 TermLoadPreset(1)
 vim.cmd('set guifont=' .. FontName .. ':h' .. FontSize)
 --set guifont=Source\ Code\ Pro\ Light:h7.5
@@ -15,6 +16,7 @@ vim.cmd('set guifont=' .. FontName .. ':h' .. FontSize)
 vim.cmd [[
 set encoding=utf-8
 set noexrc
+set undofile
 
 filetype plugin indent on
 syntax enable
@@ -35,9 +37,9 @@ set nu rnu
 colorscheme carbonfox " AFTER other settings
 hi NormalFloat guibg=#000000
 hi Normal guibg=#000000
-hi NormalNC guibg=#000404
+hi NormalNC guibg=#000000 " non-focused windows. Kept the same as Normal for Goyo.nvim
 hi CursorLine guibg=#101a1a
-hi Conceal guifg=#ffffff
+hi Conceal guifg=#bbbbbb
 
 "colorscheme bordeau
 
@@ -100,7 +102,7 @@ local function strip_prefix(path, prefix)
    end
 end
 
-require 'user_pickers'
+require 'custom_code.user_pickers'
 
 function SearchTemplate()
    local template_path = nvim_base_path .. "/vim_templates/"
@@ -173,13 +175,34 @@ function ToggleTransparentBg()
    BgTransparent = not BgTransparent
 end
 
+function LimelightToggleMode()
+   if LimelightMode == 'DoubleNewline' then
+      LimelightMode = 'Braces'
+      vim.g.limelight_bop = '{\\n'
+      vim.g.limelight_eop = '}\\n'
+   elseif LimelightMode == 'Braces' then
+      LimelightMode = 'Newline'
+      vim.g.limelight_bop = '^\\n'
+      vim.g.limelight_eop = '^\\n'
+   elseif LimelightMode == 'Newline' or LimelightMode == nil then
+      LimelightMode = 'DoubleNewline'
+      vim.g.limelight_bop = '^\\n\\n'
+      vim.g.limelight_eop = '^\\n\\n'
+   else
+      error('Unknown LimelightMode: ' .. LimelightMode)
+   end
+   print('LimelightMode: ' .. LimelightMode)
+end
+
 --> Settings bindings
 require 'which-key'.add {
    group = 'Settings',
-   { '<space>,l', ':Limelight!!<CR>',  desc = 'Limelight',           silent = true, },
-   { '<space>,g', ':Goyo 90%x90%<CR>', desc = 'Goyo',                silent = true, },
-   { '<space>,G', ':Goyo<CR>',         desc = 'Goyo (deactivate)',   silent = true, },
-   { '<space>,n', ToggleNumbers,       desc = 'Toggle line numbers', silent = true, },
+   { '<space>,l', ':Limelight!!<CR>',    desc = 'Limelight',           silent = true, },
+   { '<space>,L', LimelightToggleMode,   desc = 'Limelight',           silent = true, },
+   { '<space>,g', ':Goyo 50%x90%<CR>',   desc = 'Goyo',                silent = true, },
+   { '<space>,G', ':Goyo<CR>',           desc = 'Goyo (deactivate)',   silent = true, },
+   { '<space>,n', ToggleNumbers,         desc = 'Toggle line numbers', silent = true, },
+   { '<space>,c', ':Codeium Toggle<CR>', desc = 'Toggle Codeium',      silent = false, },
    {
       group = '',
    },

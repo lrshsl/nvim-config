@@ -40,7 +40,7 @@ return {
              snippets = {
                 enable = true,
                 exclude = {
-                   'vv', 'st', 'ip', 'ib', 'el', 'ep', 'iv', 'sq', 'rt',
+                   'vv', 'st', 'ip', 'ib', 'el', 'ep', 'iv', 'sq', 'rt', 'ub', 'and', 'or'
                 },
              },
           }
