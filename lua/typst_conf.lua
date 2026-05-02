@@ -1,11 +1,13 @@
+function StartConceal()
+end
+
 return {
    'arne314/typstar',
    dependencies = {
       -- {
       --    "pxwg/math-conceal.nvim",
-      --    event = "VeryLazy",
+      --    cmd = StartConceal,
       --    main = "math-conceal",
-      --    --- @type LaTeXConcealOptions
       --    opts = {
       --       conceal = {
       --          "greek",
@@ -34,15 +36,15 @@ return {
    },
    config = function()
       require 'lsp' -- Make sure it loads first
-      require 'typstar'
-          .setup {
-             add_undo_breakpoints = true,
-             snippets = {
-                enable = true,
-                exclude = {
-                   'vv', 'st', 'ip', 'ib', 'el', 'ep', 'iv', 'sq', 'rt', 'ub', 'and', 'or'
-                },
-             },
-          }
+      -- require 'typstar'
+      --     .setup {
+      --        add_undo_breakpoints = true,
+      --        snippets = {
+      --           enable = true,
+      --           exclude = {
+      --              'vv', 'st', 'ip', 'ib', 'el', 'ep', 'iv', 'sq', 'rt', 'ub', 'and', 'or', 'vi'
+      --           },
+      --        },
+      --     }
    end,
 }

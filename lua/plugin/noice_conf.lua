@@ -29,6 +29,13 @@ return {
             enter = true,
             size = "80%",
          },
+         hover = {
+            border = {
+               style = "rounded", -- Options: "single", "double", "rounded", "solid", "shadow"
+               padding = { 0, 1 },
+            },
+            position = { row = 2, col = 0 }, -- Adjust offset from cursor
+         },
       },
       routes = {
          {

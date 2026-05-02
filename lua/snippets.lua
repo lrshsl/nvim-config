@@ -26,9 +26,12 @@ augroup typst_maps
    "au BufEnter,BufRead,BufNewFile *.typ        inoremap disc discontinuous
    "au BufEnter,BufRead,BufNewFile *.typ        inoremap fn function
    "au BufEnter,BufRead,BufNewFile *.typ        inoremap <S-CR> <CR><CR><up><tab>
-   au BufEnter,BufRead,BufNewFIle *.rs          inoremap ;str &'static str
-   au BufEnter,BufRead,BufNewFIle *.rs          inoremap ;l '
+   au BufEnter,BufRead,BufNewFile *.rs          inoremap ;str &'static str
+   au BufEnter,BufRead,BufNewFile *.rs          inoremap ;l '
+   au BufEnter,BufRead,BufNewFile *.rs          inoremap ;ve vec![]<left>
+   au BufEnter,BufRead,BufNewFile *.rs          inoremap ;print println!("");<c-o>2<left>
 
+   au BufEnter,BufRead,BufNewFile *.typ          inoremap ;ep epsilon
 augroup END
 ]]
 
@@ -36,7 +39,7 @@ augroup END
 local tp = require 'typstar.autosnippets'
 
 ls.add_snippets('typst', {
-   tp.snip('imp', '==>>', {}, tp.in_math),
+   tp.snip('IMP', '==>>', {}, tp.in_math),
    tp.snip('st', [["s.t"]], {}, tp.in_math),
    tp.snip('fn', 'function', {}, tp.in_markup),
    tp.snip('cnt', 'continuous', {}, tp.in_markup),
@@ -47,4 +50,5 @@ ls.add_snippets('typst', {
    tp.snip('evv', 'eigenvector', {}, tp.in_markup),
    tp.snip('inv', '^(-1)', {}, tp.in_math),
    tp.snip('dd', 'dot.double', {}, tp.in_math),
+   tp.snip('exrc', '#exercise', {}, tp.in_markup),
 })

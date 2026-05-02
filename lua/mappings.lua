@@ -1,7 +1,6 @@
 local wk = require 'which-key'
 local telescope = require 'telescope.builtin'
 local session_man = require 'session_manager'
-local noice = require 'noice'
 -- local harpoon = require 'harpoon'
 
 wk.add {
@@ -41,8 +40,8 @@ wk.add {
 
       { '<space>f',        group = 'find' },
       { '<space>fd',       telescope.diagnostics,                                      desc = 'Find diagnostics' },
-      { '<space>fr',       telescope.lsp_incoming_calls,                               desc = 'Find References' },
-      { '<space>fR',       telescope.lsp_references,                                   desc = 'Find References' },
+      { '<space>fr',       telescope.lsp_references,                                   desc = 'Find References' },
+      { '<space>fi',       telescope.lsp_implementations,                              desc = 'Find Implementations' },
       { '<space>fh',       telescope.help_tags,                                        desc = 'Find Help' },
 
       { '<space>fg',       telescope.live_grep,                                        desc = 'Live grep' },
@@ -54,8 +53,8 @@ wk.add {
       { '<space>fb',       telescope.buffers,                                          desc = 'Find Buffers' },
       { '<space>fo',       telescope.oldfiles,                                         desc = 'Open Recent File' },
 
-      { '<space>fs',       telescope.symbols,                                          desc = 'Find Symbols' },
-      { '<space>fS',       telescope.workspace_symbols,                                desc = 'Workspace Symbols' },
+      { '<space>fs',       telescope.lsp_document_symbols,                             desc = 'Find Symbols' },
+      { '<space>fS',       telescope.lsp_workspace_symbols,                            desc = 'Workspace Symbols' },
       { '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Dyn Workspace Symbols' },
 
       --> Git
@@ -68,6 +67,7 @@ wk.add {
       --> Session
       { '<space>s',        group = 'session' },
       { '<space>ss',       session_man.save_current_session,                           desc = 'Save Session' },
+      { '<space>s.',       session_man.load_current_dir_session,                       desc = 'Load Session for the CWD' },
       { '<space>sl',       session_man.load_session,                                   desc = 'Load Session' },
       { '<space>sL',       session_man.load_last_session,                              desc = 'Load Last Session' },
       { '<space>sd',       session_man.delete_session,                                 desc = 'Delete Session' },
@@ -81,7 +81,7 @@ wk.add {
       --> Lsp
       { '<space>c',   group = 'code' },
       { '<space>ca',  vim.lsp.buf.code_action,                   desc = 'Code Action' },
-      { '<space>ch',  vim.lsp.buf.hover,                         desc = 'Hover' },
+      { '<space>ch',  function() vim.lsp.buf.hover() end,        desc = 'Hover' },
       { '<space>cf',  vim.lsp.buf.format,                        desc = 'Format' },
       { '<space>cd',  vim.diagnostic.open_float,                 desc = 'Diagnostics' },
       { '<space>cr',  vim.lsp.buf.rename,                        desc = 'Rename' },
@@ -184,6 +184,8 @@ wk.add {
       { ';ooe', 'œ', desc = 'œ', },
    }
 }
+
+Imap('<C-S-h>', vim.diagnostic.hide)
 
 -- wk.show{
 -- 	keys = '<C-w>',
@@ -357,8 +359,14 @@ augroup CMD_RUN
 	autocmd BufNewFile,BufRead *.asm              nnoremap <space>rf   :!nasm -f elf64 -o out.o % && ld -o out out.o && ./out
 
 	" Markdown -> PDF "
-	autocmd BufNewFile,BufRead *.md,*.tex         nnoremap <space>ra   :!pandoc % -o out.pdf
+	autocmd BufNewFile,BufRead *.md               nnoremap <space>ra   :!pandoc % -o %:r.pdf
+	autocmd BufNewFile,BufRead *.md               nnoremap <space>rf   :!pandoc % -o %:r.pdf
 
+   " Latex -> PDF "
+	autocmd BufNewFile,BufRead *.tex              nnoremap <space>ra   :!pdflatex %
+	autocmd BufNewFile,BufRead *.tex              nnoremap <space>rf   :!pdflatex %
+
+   " Typst -> PDF "
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rf   :!typst compile %
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>ra   :!typst watch % &
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rn   :!typst c % --root ../../

@@ -20,9 +20,8 @@ local plugins = {
    { 'nvim-tree/nvim-web-devicons', lazy = false },
 
    --> Platformio
-   -- { 'normen/vim-pio',              ft = { 'c', 'cpp' } },
+   { 'normen/vim-pio',              ft = { 'c', 'cpp' } },
    { 'benknoble/vim-racket',        ft = 'racket' },
-   --{ 'rhysd/reply.vim',             ft = 'racket' },
 
    --> Text editing
    require 'plugin.treesitter_conf',
@@ -72,9 +71,9 @@ local plugins = {
    --> Document Symbols
    {
       'liuchengxu/vista.vim',
-      cmp = 'Vista',
+      cmd = 'Vista',
       init = function()
-         vim.g.vista_default_executive = 'nvim_lsp'
+         -- vim.g.vista_default_executive = 'nvim_lsp'
          vim.g.vista_sidebar_width = 40
          vim.g.close_on_jump = 1
       end,

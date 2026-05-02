@@ -25,8 +25,11 @@ return {
             },
          },
       }
-      ts.load_extension('ui-select')
-      ts.load_extension('themes')
-      ts.load_extension('noice')
+      ts.load_extension 'ui-select'
+      ts.load_extension 'themes'
+      local status, _ = pcall(require, 'noice')
+      if status then
+         ts.load_extension 'noice'
+      end
    end,
 }

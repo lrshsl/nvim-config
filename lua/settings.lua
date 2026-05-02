@@ -39,7 +39,7 @@ hi NormalFloat guibg=#000000
 hi Normal guibg=#000000
 hi NormalNC guibg=#000000 " non-focused windows. Kept the same as Normal for Goyo.nvim
 hi CursorLine guibg=#101a1a
-hi Conceal guifg=#bbbbbb
+hi Conceal guifg=#ffffff
 
 "colorscheme bordeau
 

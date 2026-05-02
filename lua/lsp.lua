@@ -51,8 +51,8 @@ return {
                { 'gD', vim.lsp.buf.declaration,     desc = 'Goto declaration' },
                { 'gi', vim.lsp.buf.implementation,  desc = 'Goto implementation' },
                { 'gt', vim.lsp.buf.type_definition, desc = 'Goto type' },
-               { 'gr', vim.lsp.buf.incoming_calls,  desc = 'Goto incoming calls' },
-               { 'gR', vim.lsp.buf.references,      desc = 'Goto references' },
+               { 'gc', vim.lsp.buf.incoming_calls,  desc = 'Goto incoming calls' },
+               { 'gr', vim.lsp.buf.references,      desc = 'Goto references' },
                -- Telescope handles other goto stuff
             }
             -- Navigate snippets
