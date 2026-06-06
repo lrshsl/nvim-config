@@ -1,188 +1,199 @@
+require 'custom_code.templates'
 local wk = require 'which-key'
 local telescope = require 'telescope.builtin'
 local session_man = require 'session_manager'
 -- local harpoon = require 'harpoon'
 
 wk.add {
-   --> Leader mappings
-   {
-      { 'gh',        '<cmd>Ouroboros<CR>',         desc = 'Goto header/source' },
+	--> Leader mappings
+	{
+		{ 'gh',        '<cmd>Ouroboros<CR>',         desc = 'Goto header/source' },
+		{ 'g',         group = 'goto' },
+		{ 'gd',        vim.lsp.buf.definition,       desc = 'Goto definition' },
+		{ 'gD',        vim.lsp.buf.declaration,      desc = 'Goto declaration' },
+		{ 'gi',        vim.lsp.buf.implementation,   desc = 'Goto implementation' },
+		{ 'gt',        vim.lsp.buf.type_definition,  desc = 'Goto type' },
+		{ 'gc',        vim.lsp.buf.incoming_calls,   desc = 'Goto incoming calls' },
+		{ 'gr',        vim.lsp.buf.references,       desc = 'Goto references' },
 
-      { '<space>m',  group = 'messages' },
-      { '<space>ml', '<cmd>Noice last<CR>',        desc = 'Last message' },
-      { '<space>mm', '<cmd>Noice history<CR>',     desc = 'History' },
-      { '<space>md', '<cmd>Noice diagnostics<CR>', desc = 'Diagnostics' },
-      { '<space>me', '<cmd>Noice errors<CR>',      desc = 'Errors' },
-      { '<space>m;', '<cmd>Noice dismiss<CR>',     desc = 'Dismiss' },
+		{ '<space>m',  group = 'messages' },
+		{ '<space>ml', '<cmd>Noice last<CR>',        desc = 'Last message' },
+		{ '<space>mm', '<cmd>Noice history<CR>',     desc = 'History' },
+		{ '<space>md', '<cmd>Noice diagnostics<CR>', desc = 'Diagnostics' },
+		{ '<space>me', '<cmd>Noice errors<CR>',      desc = 'Errors' },
+		{ '<space>m;', '<cmd>Noice dismiss<CR>',     desc = 'Dismiss' },
 
-      --> File navigation
-      { '<space>o',  group = 'open' },
-      { '<space>oo', '<cmd>Neotree toggle<cr>',    desc = 'File tree' },
-      { '<space>od',
-         '<cmd>Trouble lsp_errors toggle focus=true win.position=right<CR>',
-         desc = 'Errors', silent = true, },
-      { '<space>oD',
-         '<cmd>Trouble diagnostics toggle focus=true win.position=right<CR>',
-         desc = 'Diagnostics', silent = true, },
-      { '<space>os',
-         ':Trouble symbols toggle focus=true win.position=right<CR>',
-         desc = 'Bufffer symbols', silent = true, },
+		--> File navigation
+		{ '<space>o',  group = 'open' },
+		{ '<space>oo', '<cmd>Neotree toggle<cr>',    desc = 'File tree' },
+		{ '<space>od',
+			'<cmd>Trouble lsp_errors toggle focus=true win.position=right<CR>',
+			desc = 'Errors', silent = true, },
+		{ '<space>oD',
+			'<cmd>Trouble diagnostics toggle focus=true win.position=right<CR>',
+			desc = 'Diagnostics', silent = true, },
+		{ '<space>os',
+			':Trouble symbols toggle focus=true win.position=right<CR>',
+			desc = 'Bufffer symbols', silent = true, },
 
-      -- { '<leader>gh', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
-      -- { '<leader>ga', function() harpoon:list():append() end },
-      -- { '<leader>gj', function() harpoon:list():select(1) end },
-      -- { '<leader>gk', function() harpoon:list():select(2) end },
-      -- { '<leader>gl', function() harpoon:list():select(3) end },
-      -- { '<leader>g;', function() harpoon:list():select(4) end },
+		-- { '<leader>gh', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
+		-- { '<leader>ga', function() harpoon:list():append() end },
+		-- { '<leader>gj', function() harpoon:list():select(1) end },
+		-- { '<leader>gk', function() harpoon:list():select(2) end },
+		-- { '<leader>gl', function() harpoon:list():select(3) end },
+		-- { '<leader>g;', function() harpoon:list():select(4) end },
 
-      --> Find
-      { '<space>ft',       telescope.builtin,                                          desc = 'Find Telescope commands' },
+		--> Find
+		{ '<space>ft',       telescope.builtin,                                          desc = 'Find Telescope commands' },
 
-      { '<space>f',        group = 'find' },
-      { '<space>fd',       telescope.diagnostics,                                      desc = 'Find diagnostics' },
-      { '<space>fr',       telescope.lsp_references,                                   desc = 'Find References' },
-      { '<space>fi',       telescope.lsp_implementations,                              desc = 'Find Implementations' },
-      { '<space>fh',       telescope.help_tags,                                        desc = 'Find Help' },
+		{ '<space>f',        group = 'find' },
+		{ '<space>fd',       telescope.diagnostics,                                      desc = 'Find diagnostics' },
+		{ '<space>fr',       telescope.lsp_references,                                   desc = 'Find References' },
+		{ '<space>fi',       telescope.lsp_implementations,                              desc = 'Find Implementations' },
+		{ '<space>fh',       telescope.help_tags,                                        desc = 'Find Help' },
 
-      { '<space>fg',       telescope.live_grep,                                        desc = 'Live grep' },
+		{ '<space>fg',       telescope.live_grep,                                        desc = 'Live grep' },
 
-      { '<space>ff',       '<cmd>BrootWorkingDir<CR>',                                 desc = 'Find Files' },
-      { '<space>fl',       '<cmd>BrootCurrentDir<CR>',                                 desc = 'Find local Files' },
-      { '<space>fa',       '<cmd>Telescope find_files hidden=true<CR>',                desc = 'Find All Files (also hidden)' },
-      { '<space>fA',       '<cmd>Telescope find_files hidden=true no_ignore=true<CR>', desc = 'Find All Files (hidden & ignored)' },
-      { '<space>fb',       telescope.buffers,                                          desc = 'Find Buffers' },
-      { '<space>fo',       telescope.oldfiles,                                         desc = 'Open Recent File' },
+		{ '<space>ff',       '<cmd>BrootWorkingDir<CR>',                                 desc = 'Find Files' },
+		{ '<space>fl',       '<cmd>BrootCurrentDir<CR>',                                 desc = 'Find local Files' },
+		{ '<space>fa',       '<cmd>Telescope find_files hidden=true<CR>',                desc = 'Find All Files (also hidden)' },
+		{ '<space>fA',       '<cmd>Telescope find_files hidden=true no_ignore=true<CR>', desc = 'Find All Files (hidden & ignored)' },
+		{ '<space>fb',       telescope.buffers,                                          desc = 'Find Buffers' },
+		{ '<space>fo',       telescope.oldfiles,                                         desc = 'Open Recent File' },
 
-      { '<space>fs',       telescope.lsp_document_symbols,                             desc = 'Find Symbols' },
-      { '<space>fS',       telescope.lsp_workspace_symbols,                            desc = 'Workspace Symbols' },
-      { '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Dyn Workspace Symbols' },
+		{ '<space>fs',       telescope.lsp_document_symbols,                             desc = 'Find Symbols' },
+		{ '<space>fS',       telescope.lsp_workspace_symbols,                            desc = 'Workspace Symbols' },
+		{ '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Dyn Workspace Symbols' },
 
-      --> Git
-      { '<space>g',        group = "git" },
-      { '<space>g.',       '<cmd>Git<CR>',                                             desc = 'Git' },
-      { '<space>g<space>', ':Git<space>',                                              desc = ':Git <CMD>' },
+		--> Git
+		{ '<space>g',        group = "git" },
+		{ '<space>g.',       '<cmd>Git<CR>',                                             desc = 'Git' },
+		{ '<space>g<space>', ':Git<space>',                                              desc = ':Git <CMD>' },
 
-      { '<space>a',        group = "Harpoon" },
+		{ '<space>a',        group = "Harpoon" },
 
-      --> Session
-      { '<space>s',        group = 'session' },
-      { '<space>ss',       session_man.save_current_session,                           desc = 'Save Session' },
-      { '<space>s.',       session_man.load_current_dir_session,                       desc = 'Load Session for the CWD' },
-      { '<space>sl',       session_man.load_session,                                   desc = 'Load Session' },
-      { '<space>sL',       session_man.load_last_session,                              desc = 'Load Last Session' },
-      { '<space>sd',       session_man.delete_session,                                 desc = 'Delete Session' },
-      { '<space>sD', function()
-         session_man.delete_current_dir_session()
-         vim.cmd ":cd | bufdo bd!"
-         session_man.load_session()
-      end, desc = 'Delete Current Session' },
-      { '<space>sc',  [[ <cmd>cd | bufdo bd!<cr> ]],             desc = 'Close Session' },
+		--> Session
+		{ '<space>s',        group = 'session' },
+		{ '<space>ss',       session_man.save_current_session,                           desc = 'Save Session' },
+		{ '<space>s.',       session_man.load_current_dir_session,                       desc = 'Load Session for the CWD' },
+		{ '<space>sl',       session_man.load_session,                                   desc = 'Load Session' },
+		{ '<space>sL',       session_man.load_last_session,                              desc = 'Load Last Session' },
+		{ '<space>sd',       session_man.delete_session,                                 desc = 'Delete Session' },
+		{ '<space>sD', function()
+			session_man.delete_current_dir_session()
+			vim.cmd ":cd | bufdo bd!"
+			session_man.load_session()
+		end, desc = 'Delete Current Session' },
+		{ '<space>sc',  [[ <cmd>cd | bufdo bd!<cr> ]],             desc = 'Close Session' },
 
-      --> Lsp
-      { '<space>c',   group = 'code' },
-      { '<space>ca',  vim.lsp.buf.code_action,                   desc = 'Code Action' },
-      { '<space>ch',  function() vim.lsp.buf.hover() end,        desc = 'Hover' },
-      { '<space>cf',  vim.lsp.buf.format,                        desc = 'Format' },
-      { '<space>cd',  vim.diagnostic.open_float,                 desc = 'Diagnostics' },
-      { '<space>cr',  vim.lsp.buf.rename,                        desc = 'Rename' },
+		--> Lsp
+		{ '<space>c',   group = 'code' },
+		{ '<space>ca',  vim.lsp.buf.code_action,                   desc = 'Code Action' },
+		{ '<space>ch',  vim.lsp.buf.hover,                         desc = 'Hover' },
+		{ '<space>cf',  vim.lsp.buf.format,                        desc = 'Format' },
+		{ '<space>cd',  vim.diagnostic.open_float,                 desc = 'Diagnostics' },
+		{ '<space>cr',  vim.lsp.buf.rename,                        desc = 'Rename' },
 
-      { '<space>;u',  '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
-      { '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',             desc = 'Open in Zathura' },
-      { '<space>;v',  '<cmd>Vista focus<cr>',                    desc = 'Focus / Open Vista' },
+		{ '<space>;u',  '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
 
-      --> Text editing
-      { '<space>u',   'viw~',                                    desc = 'lower <-> UPPER' },
-      { '<space>U',   'viW~',                                    desc = 'lower-word <-> UPPER-WORD' },
-      { '<space>y',   '~<Left>',                                 desc = '~' },
+		{ '<space>;u',  '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
+		{ '<space>;z',  '<cmd>!zathura %:r.pdf &<cr>',             desc = 'Open in Zathura' },
+		{ '<space>;v',  '<cmd>Vista focus<cr>',                    desc = 'Focus / Open Vista' },
+		{ '<space>;lt', SearchTemplate,                            desc = 'Load Template' },
 
-      { '<space>;c',  group = "Change case" },
-      { '<space>;cc', [[viw:s/\%V_\(\w\)/\u\1/g<CR>]],           desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
-      { '<space>;cs', [[viw:s/\%V\(\u\)/_\l\1/g<CR>]],           desc = "camelCase -> snake_case" },
+		--> Text editing
+		{ '<space>u',   'viw~',                                    desc = 'lower <-> UPPER' },
+		{ '<space>U',   'viW~',                                    desc = 'lower-word <-> UPPER-WORD' },
+		{ '<space>y',   '~<Left>',                                 desc = '~' },
 
-      --> Buffer
-      { '<space>w',   ':w<CR>',                                  desc = 'write buffer' },
-      { '<space>;w',  ':wa<CR>',                                 desc = 'write buffers' },
-      { '<space>q',   ':q<CR>',                                  desc = 'quit buffer' },
-      { '<space>;q',  ':qa<CR>',                                 desc = 'quit all' },
+		{ '<space>;c',  group = "Change case" },
+		{ '<space>;cc', [[mzviw:s/\%V_\(\w\)/\u\1/g<CR>`z]],       desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
+		{ '<space>;cs', [[mzviw:s/\%V\(\u\)/_\l\1/g<CR>`z]],       desc = "camelCase -> snake_case" },
 
-      --> Search and replace
-      {
-         mode = { 'n' },
-         { '<space>*', ':%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>',
-            desc = 'Search and replace (cursor)' },
-         { '<space>;s', ':%s//gc<Left><Left><Left>',           desc = 'Search and replace' },
-         { '<space>f*', '*<cmd>Telescope live_grep<CR><C-r>/', desc = 'Live grep' },
+		--> Buffer
+		{ '<space>w',   ':w<CR>',                                  desc = 'write buffer' },
+		{ '<space>;w',  ':wa<CR>',                                 desc = 'write buffers' },
+		{ '<space>q',   ':q<CR>',                                  desc = 'quit buffer' },
+		{ '<space>;q',  ':qa<CR>',                                 desc = 'quit all' },
 
-      },
-      {
-         mode = { 'v' },
-         { '<space>*',  ':s/<C-r><C-w>/<C-r><C-w>/g<Left><Left>', desc = 'Search and replace (cursor)' },
-         { '<space>;s', [[:s/\%V/g<Left><Left>]],                 desc = 'Search and replace' },
-      },
-   },
+		--> Search and replace
+		{
+			mode = { 'n' },
+			{ '<space>*', ':%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>',
+				desc = 'Search and replace (cursor)' },
+			{ '<space>;s', ':%s//gc<Left><Left><Left>',           desc = 'Search and replace' },
+			{ '<space>f*', '*<cmd>Telescope live_grep<CR><C-r>/', desc = 'Live grep' },
 
-   --> Non prefix mappings
-   {
-      mode = { 'n', 'v' },
-      { 'j', desc = 'which_key_ignore' }, -- Colemak remaps
-      { 'h', desc = 'Left' },
-      { 'n', desc = 'Down' },
-      { 'e', desc = 'Up' },
-      { 'i', desc = 'Right' },
-      { 'l', desc = 'Insert' },
-      { 'k', desc = 'End of word' },
-      { 'H', desc = 'Start of line' },
-      { 'I', desc = 'End of line' },
+		},
+		{
+			mode = { 'v' },
+			{ '<space>*',  ':s/<C-r><C-w>/<C-r><C-w>/g<Left><Left>', desc = 'Search and replace (cursor)' },
+			{ '<space>;s', [[:s/\%V/g<Left><Left>]],                 desc = 'Search and replace' },
+		},
+	},
 
-      { '$', desc = 'which_key_ignore' }, -- Shift-mappings
-      { '^', desc = 'which_key_ignore' },
-      { '_', desc = 'which_key_ignore' },
-      { '0', desc = 'Start of line' },
-   },
+	--> Non prefix mappings
+	{
+		mode = { 'n', 'v' },
+		{ 'j', desc = 'which_key_ignore' }, -- Colemak remaps
+		{ 'h', desc = 'Left' },
+		{ 'n', desc = 'Down' },
+		{ 'e', desc = 'Up' },
+		{ 'i', desc = 'Right' },
+		{ 'l', desc = 'Insert' },
+		{ 'k', desc = 'End of word' },
+		{ 'H', desc = 'Start of line' },
+		{ 'I', desc = 'End of line' },
 
-   { '-',  require 'oil'.open, desc = 'Oil' },
+		{ '$', desc = 'which_key_ignore' }, -- Shift-mappings
+		{ '^', desc = 'which_key_ignore' },
+		{ '_', desc = 'which_key_ignore' },
+		{ '0', desc = 'Start of line' },
+	},
 
-   { mode = { 'n', 'v', 'i' },
-      { '<S-CR>', CustomShiftCR }
-   },
+	{ '-',  require 'oil'.open, desc = 'Oil' },
 
-   {
-      mode = { 'n' },
-      { '<A-h>', '<cmd>ClangdSwitchSourceHeader<CR>', desc = 'Switch source/header' },
-   },
+	{ mode = { 'n', 'v', 'i' },
+		{ '<S-CR>', CustomShiftCR }
+	},
 
-   --> Last macro
-   { '\\', '@@',               desc = 'Last macro',              mode = 'n' },
-   { '\\', ':normal @@<CR>',   desc = 'Last macro on each line', mode = 'v' },
+	{
+		mode = { 'n' },
+		{ '<A-h>', '<cmd>ClangdSwitchSourceHeader<CR>', desc = 'Switch source/header' },
+	},
 
-   --> Insert mode mappings
-   {
-      mode = { 'i' },
-      name = 'Abbreviations, umlauts and accents',
-      { ';ae',  'ä', desc = 'ä', },
-      { ';Ae',  'Ä', desc = 'Ä', },
-      { ';AE',  'Ä', desc = 'Ä', },
+	--> Last macro
+	{ '\\', '@@',               desc = 'Last macro',              mode = 'n' },
+	{ '\\', ':normal @@<CR>',   desc = 'Last macro on each line', mode = 'v' },
 
-      { ';oe',  'ö', desc = 'ö', },
-      { ';Oe',  'Ö', desc = 'Ö', },
-      { ';OE',  'Ö', desc = 'Ö', },
+	--> Insert mode mappings
+	{
+		mode = { 'i' },
+		name = 'Abbreviations, umlauts and accents',
+		{ ';ae',  'ä', desc = 'ä', },
+		{ ';Ae',  'Ä', desc = 'Ä', },
+		{ ';AE',  'Ä', desc = 'Ä', },
 
-      { ';ue',  'ü', desc = 'ü', },
-      { ';Ue',  'Ü', desc = 'Ü', },
-      { ';UE',  'Ü', desc = 'Ü', },
+		{ ';oe',  'ö', desc = 'ö', },
+		{ ';Oe',  'Ö', desc = 'Ö', },
+		{ ';OE',  'Ö', desc = 'Ö', },
 
-      { ';ee',  'é', desc = 'é', },
-      { ';eg',  'è', desc = 'è', },
-      { ';ec',  'ê', desc = 'ê', },
-      { ';cc',  'ç', desc = 'ç', },
-      { ';ed',  'ë', desc = 'ë', },
+		{ ';ue',  'ü', desc = 'ü', },
+		{ ';Ue',  'Ü', desc = 'Ü', },
+		{ ';UE',  'Ü', desc = 'Ü', },
 
-      { ';ag',  'à', desc = 'à', },
+		{ ';ee',  'é', desc = 'é', },
+		{ ';eg',  'è', desc = 'è', },
+		{ ';ec',  'ê', desc = 'ê', },
+		{ ';cc',  'ç', desc = 'ç', },
+		{ ';ed',  'ë', desc = 'ë', },
 
-      { ';yd',  'ÿ', desc = 'ÿ', },
-      { ';aae', 'æ', desc = 'æ', },
-      { ';ooe', 'œ', desc = 'œ', },
-   }
+		{ ';ag',  'à', desc = 'à', },
+
+		{ ';yd',  'ÿ', desc = 'ÿ', },
+		{ ';aae', 'æ', desc = 'æ', },
+		{ ';ooe', 'œ', desc = 'œ', },
+	}
 }
 
 Imap('<C-S-h>', vim.diagnostic.hide)
@@ -287,6 +298,11 @@ noremap <C-;> <cmd>noh<CR>
 --vim.cmd " map [[ [{ "
 --vim.cmd " map ]] [}<CR> "
 
+wk.add {
+	{ '<space>rt', function() Terminal_SendCommandAndFocus("just", false) end, desc = 'Oil' },
+	{ '<space>rn', function() Terminal_SendCommandAndFocus("just", true) end,  desc = 'Oil' },
+}
+
 vim.cmd [[
 " Move to line
 "map <space>l <Plug>(easymotion-bd-jk)
@@ -298,11 +314,16 @@ vim.cmd [[
 
 " Run commands "
 nnoremap <space>rr :!
-nnoremap <space>rs :so ~/.config/nvim/init.lua<CR>
 nnoremap <space>rm :make<space>
 
 nnoremap <space>ra :lua ToggleTerminal()<CR>
-nnoremap <space>rf :lua ToggleTerminal()<CR>
+
+nnoremap <space>rt :lua Terminal_SendCommandAndFocus("just ", false)<CR>
+nnoremap <space>rn :lua Terminal_SendCommandAndFocus("just ", true)<CR>
+nnoremap <space>rf :lua Terminal_SendCommandAndFocus("just run-file " .. vim.fn.expand("%"), false)<CR>
+
+nnoremap <space>rb :just build<CR>
+nnoremap <space>rc :just clean<CR>
 
 augroup CMD_RUN
 	autocmd!
@@ -376,45 +397,45 @@ augroup END
 ]]
 
 local function exactly(keys)
-   return vim.api.nvim_replace_termcodes(keys, true, true, true)
+	return vim.api.nvim_replace_termcodes(keys, true, true, true)
 end
 
 local function contains(t, key)
-   for k, _ in pairs(t) do
-      if k == key then
-         return true
-      end
-   end
-   return false
+	for k, _ in pairs(t) do
+		if k == key then
+			return true
+		end
+	end
+	return false
 end
 
 local function get_line_ending(ft)
-   if contains({ 'rust', 'c', 'cpp' }, ft) then
-      return ';'
-   end
-   return ''
+	if contains({ 'rust', 'c', 'cpp' }, ft) then
+		return ';'
+	end
+	return ''
 end
 
 -- Function to map Shift-CR to custom behavior
 function CustomShiftCR()
-   local ft = vim.bo.filetype
-   print(ft)
-   if ft == 'typst' then
-      vim.api.nvim_feedkeys(exactly '<cr><cr><up><tab>')
-      return
-   end
+	local ft = vim.bo.filetype
+	print(ft)
+	if ft == 'typst' then
+		vim.api.nvim_feedkeys(exactly '<cr><cr><up><tab>')
+		return
+	end
 
-   local ending = get_line_ending(ft)
-   vim.api.nvim_feedkeys(exactly '<down>' .. ending .. '<left>' * #ending, 'n', false)
+	local ending = get_line_ending(ft)
+	vim.api.nvim_feedkeys(exactly '<down>' .. ending .. '<left>' * #ending, 'n', false)
 end
 
 vim.cmd [[
 
 " Codeium "
 "imap <script><silent><nowait><expr> <C-y> codeium#Accept()
-imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
-imap <C-:>   <Cmd>call codeium#CycleCompletions(1)<CR>
-imap <C-[>   <Cmd>call codeium#Clear()<CR>
+"imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
+"imap <C-:>   <Cmd>call codeium#CycleCompletions(1)<CR>
+"imap <C-[>   <Cmd>call codeium#Clear()<CR>
 
 " Correct last spelling mistake "
 noremap <C-l> <C-g>u<esc>[s1z=`]a<C-g>u
@@ -422,9 +443,13 @@ noremap <C-l> <C-g>u<esc>[s1z=`]a<C-g>u
 " Colemak Mappings
 inoremap tn <esc>
 inoremap TN <esc>
+inoremap Tn <esc>
 
-nnoremap m n
-nnoremap M N
+
+nnoremap j n
+nnoremap J N
+
+nnoremap M J
 
 noremap n j
 noremap e k

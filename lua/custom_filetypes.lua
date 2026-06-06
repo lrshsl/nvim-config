@@ -4,8 +4,16 @@ local expandr_project_root = '/code/parsing/expandr'
 vim.filetype.add {
    extension = {
       exr = 'exr',
+      ucad = 'microcad',
    }
 }
+
+-- MicroCad
+vim.lsp.config.racket = {
+   cmd = { 'microcad-lsp' },
+   filetypes = { 'microcad' },
+}
+vim.lsp.enable 'microcad'
 
 -- Racket
 vim.lsp.config.racket = {

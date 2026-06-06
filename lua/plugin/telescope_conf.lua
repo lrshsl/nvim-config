@@ -1,12 +1,11 @@
 return {
    'nvim-telescope/telescope.nvim',
-   tag = '0.1.5',
+   tag = 'v0.2.1',
    dependencies = {
       'nvim-lua/plenary.nvim',
 
       -- Extentions
       'nvim-telescope/telescope-ui-select.nvim',
-      'andrew-george/telescope-themes',
    },
    lazy = false,
    config = function()
@@ -26,7 +25,6 @@ return {
          },
       }
       ts.load_extension 'ui-select'
-      ts.load_extension 'themes'
       local status, _ = pcall(require, 'noice')
       if status then
          ts.load_extension 'noice'

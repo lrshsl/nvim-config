@@ -26,9 +26,6 @@ return {
             }
          },
          'saadparwaiz1/cmp_luasnip',
-
-         -- Telescope
-         'nvim-telescope/telescope.nvim',
       },
 
       -- Configure Lsp Zero, Mason and Autocompletion directly after each other
@@ -40,31 +37,6 @@ return {
             float_border = 'rounded',
             capabilities = require 'cmp_nvim_lsp'.default_capabilities(),
          }
-
-         lsp_zero.on_attach(function(_, bufnr)
-            lsp_zero.default_keymaps { buffer = bufnr, _ }
-
-            require 'which-key'.add {
-               mode = { 'n' },
-               { 'g',  group = 'goto' },
-               { 'gd', vim.lsp.buf.definition,      desc = 'Goto definition' },
-               { 'gD', vim.lsp.buf.declaration,     desc = 'Goto declaration' },
-               { 'gi', vim.lsp.buf.implementation,  desc = 'Goto implementation' },
-               { 'gt', vim.lsp.buf.type_definition, desc = 'Goto type' },
-               { 'gc', vim.lsp.buf.incoming_calls,  desc = 'Goto incoming calls' },
-               { 'gr', vim.lsp.buf.references,      desc = 'Goto references' },
-               -- Telescope handles other goto stuff
-            }
-            -- Navigate snippets
-            -- vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-            -- 	if vim.snippet.active({ direction = 1 }) then
-            -- 		vim.snippet.jump(1)
-            -- 		return ''
-            -- 	else
-            -- 		return '<Tab>'
-            -- 	end
-            -- end, { expr = true })
-         end)
 
          lsp_zero.format_on_save {
             format_opts = {
@@ -86,6 +58,7 @@ return {
 
          -- Mason
          vim.lsp.config('mlir', { cmd = { 'mlir-lsp-server' } })
+         -- require 'plugin.arduino_lsp_fix'
          -- vim.api.nvim_create_autocmd({'BufEnter'}, {
          --    pattern = {'*.mlir'},
          --    callback = function(_)
@@ -117,7 +90,7 @@ return {
          -- end, { expr = true })
          vim.cmd "imap <C-y> <C-y>"
          local mappings = {
-            ['<C-Space>'] = cmp.complete,
+            ['<C-Space>'] = cmp.mapping(function() cmp.complete() end),
             ['<C-y>'] = cmp.mapping(function()
                cmp.confirm {
                   select = true, behavior = cmp.ConfirmBehavior.Insert

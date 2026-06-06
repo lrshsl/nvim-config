@@ -4,7 +4,8 @@ LimelightMode = 'DoubleNewline'
 vim.g.neovide_opacity = 0.9
 FontName = 'JetBrainsMono\\ NFM\\ ExtraLight'
 FontSize = 12
-local nvim_base_path = os.getenv('HOME') .. '/.config/nvim'
+
+vim.g.python3_host_prog = os.getenv('HOME') .. '/.pyenv/versions/3.12.13/bin/python'
 
 require 'custom_code.dropdown_terminal'
 TermLoadPreset(1)
@@ -13,24 +14,13 @@ vim.cmd('set guifont=' .. FontName .. ':h' .. FontSize)
 
 --> Ligature test: -> 1/2 >= 0 |>
 
+-- Vim settings {{{
 vim.cmd [[
 set encoding=utf-8
-set noexrc
 set undofile
 
 filetype plugin indent on
 syntax enable
-
-set termguicolors
-
-" Increment alphanumerical characters with <C-a> and <C-x>
-"set nrformats=alpha
-
-" Appearance "
-set guicursor=n-v-c-sm-i-ci-ve:block,r-cr-o:hor20
-
-"set colorcolumn=80
-set nu rnu
 
 " Colors "
 "let g:sonokai_transparent_background = 1
@@ -43,14 +33,8 @@ hi Conceal guifg=#ffffff
 
 "colorscheme bordeau
 
-set nowrap
-
 " Tabs vs Spaces "
-set et! ts=3 sts=3 sw=3
-
-set foldmethod=marker
-set listchars=tab:-->,trail:~,leadmultispace:··\|,nbsp:¤
-set cursorline
+set et! ts=3 sw=0 sts=0
 
 augroup TAB_VS_SPACES_AUGROUP
 	autocmd!
@@ -58,74 +42,50 @@ augroup TAB_VS_SPACES_AUGROUP
 	autocmd BufNewFile,BufRead Makefile,makefile          :setlocal list et! list listchars=tab:\ \ ,trail:~,leadmultispace:·,nbsp:¤
 	autocmd BufNewFile,BufRead Makefile,makefile          :echom "Makefile recognised. Now using tabs for indent"
 
-	autocmd BufNewFile,BufRead *.c,*.h,*.cpp,*.hh,*.hpp   :setlocal et! ts=3 sts=3 sw=3
 	autocmd BufNewFile,BufRead *.c,*.h,*.cpp,*.hh,*.hpp   :setlocal list listchars=tab:\ \ ,trail:~,leadmultispace:·,nbsp:¤
 
-	autocmd BufNewFile,BufRead *.java                     :setlocal et ts=4 sts=4 sw=4
+	autocmd BufNewFile,BufRead *.java                     :setlocal et ts=4
 
-	autocmd BufNewFile,BufRead *.nim                      :setlocal et ts=2 sts=2 sw=2
+	autocmd BufNewFile,BufRead *.nim                      :setlocal et ts=2
 	autocmd BufNewFile,BufRead *.nim                      :setlocal list listchars=tab:-+,trail:~,nbsp:¤
 
-	autocmd BufNewFile,BufRead *.cabal                    :setlocal et ts=4 sts=4 sw=4
-	autocmd BufNewFile,BufRead *.hs                       :setlocal et ts=2 sts=2 sw=2
+	autocmd BufNewFile,BufRead *.cabal                    :setlocal et ts=4
+	autocmd BufNewFile,BufRead *.hs                       :setlocal et ts=2
 	autocmd BufNewFile,BufRead *.hs                       :setlocal list listchars=tab:-+,trail:~,nbsp:¤
 augroup END
-
-augroup FILE_TEMPLATES_AUGROUP
-	au!
-
-	au BufNewFile Makefile,makefile          :lua LoadTemplate("c/makefile") ; InsertSubstitution('Project Name')
-	au BufNewFile Doxyfile,doxyfile          :lua LoadTemplate("c/doxyfile") ; InsertSubstitution('Project Name')
-	au BufNewFile .clang-format              :lua LoadTemplate("c/clang-format")
-
-	au BufNewFile *.h                        :lua LoadTemplate("c/h") ; InsertSubstitution('filename')
-	"au BufNewFile *.c                        :lua LoadTemplate("c/c.template") | lua InsertSubstitution('filename')
-	au BufNewFile header.h                   :lua LoadTemplate("c/header.h")
-
-	au BufNewFile .gitignore                 :lua LoadTemplate("general/gitignore")
-
-   au BufNewFile *.typ                      :lua LoadTemplate("typst/base")
-   au BufNewFile summary.typ                :lua LoadTemplate("typst/summary") ; InsertSubstitution('Course')
-augroup END
 ]]
+-- }}}
 
-local function strip_prefix(path, prefix)
-   -- Ensure prefix ends with "/"
-   if not prefix:match("/$") then
-      prefix = prefix .. "/"
-   end
-   -- Remove the prefix
-   if path:sub(1, #prefix) == prefix then
-      return path:sub(#prefix + 1)
-   else
-      return path
-   end
-end
+-- Lua settings {{{
+-- Increment alphanumerical characters with <C-a> and <C-x>
+--set nrformats=alpha
 
-require 'custom_code.user_pickers'
+-- Source project specific .exrc, .nvimrc or .nvim.lua
+-- This is secure (it prompts before the first sourcing / after content changes)
+vim.opt.exrc = true
 
-function SearchTemplate()
-   local template_path = nvim_base_path .. "/vim_templates/"
-   AskUserPickFile(template_path, function(path)
-      local name = strip_prefix(path, template_path)
-      name = name:sub(0, -(".template"):len() - 1) -- strip suffix
-      LoadTemplate(name)
-   end)
-end
+-- Appearance
+vim.opt.termguicolors = true
+vim.opt.guicursor = "n-v-c-sm-i-ci-ve:block,r-cr-o:hor20"
 
-function LoadTemplate(name)
-   local template_path = nvim_base_path .. "/vim_templates/"
-   vim.cmd("0r " .. template_path .. name .. ".template")
-end
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.wrap = false
 
-function InsertSubstitution(pattern)
-   local go_left = vim.api.nvim_replace_termcodes('<left><left>', true, true, true)
-   vim.api.nvim_feedkeys(':%s/<<\\[' .. pattern .. '\\]>>//g' .. go_left, 'n', false)
-end
+-- UI/Whitespace visibility
+vim.opt.listchars = {
+   tab = "-->",
+   trail = "~",
+   leadmultispace = "··|",
+   nbsp = "¤",
+}
 
-function Subtitude(pattern, value, flags)
-   vim.cmd(':%s/<<\\[' .. pattern .. '\\]>>/' .. value .. '/' .. flags)
-end
+vim.opt.cursorline = true
+-- vim.opt.colorcolumn = "80"
+vim.opt.foldmethod = 'marker'
+vim.opt.foldlevelstart = 99
+
+-- }}}
 
 function ToggleNumbers()
    if NumbersOn == true then
@@ -197,12 +157,13 @@ end
 --> Settings bindings
 require 'which-key'.add {
    group = 'Settings',
-   { '<space>,l', ':Limelight!!<CR>',    desc = 'Limelight',           silent = true, },
-   { '<space>,L', LimelightToggleMode,   desc = 'Limelight',           silent = true, },
-   { '<space>,g', ':Goyo 50%x90%<CR>',   desc = 'Goyo',                silent = true, },
-   { '<space>,G', ':Goyo<CR>',           desc = 'Goyo (deactivate)',   silent = true, },
-   { '<space>,n', ToggleNumbers,         desc = 'Toggle line numbers', silent = true, },
-   { '<space>,c', ':Codeium Toggle<CR>', desc = 'Toggle Codeium',      silent = false, },
+   { '<space>,l', ':Limelight!!<CR>',               desc = 'Limelight',                      silent = true, },
+   { '<space>,L', LimelightToggleMode,              desc = 'Limelight',                      silent = true, },
+   { '<space>,g', ':Goyo 50%x90%<CR>',              desc = 'Goyo',                           silent = true, },
+   { '<space>,G', ':Goyo<CR>',                      desc = 'Goyo (deactivate)',              silent = true, },
+   { '<space>,n', ToggleNumbers,                    desc = 'Toggle line numbers',            silent = true, },
+   { '<space>,c', ':Codeium Toggle<CR>',            desc = 'Toggle Codeium',                 silent = false, },
+   { '<space>,t', function() TermLoadPreset(1) end, desc = 'Load default dropdown terminal', silent = false, },
    {
       group = '',
    },
@@ -248,12 +209,12 @@ require 'which-key'.add {
       { '<space>,wlt', ':set noet <CR>', desc = 'Use tabs',   silent = true, },
       {
          group = 'Width of indentation',
-         { '<space>,wwd', ':set ts=3 sts=3 sw=3  <CR>', desc = 'Default', silent = true, },
-         { '<space>,ww1', ':set ts=1 sts=1 sw=1 <CR>',  desc = '1',       silent = true, },
-         { '<space>,ww2', ':set ts=2 sts=2 sw=2 <CR>',  desc = '2',       silent = true, },
-         { '<space>,ww3', ':set ts=3 sts=3 sw=3 <CR>',  desc = '3',       silent = true, },
-         { '<space>,ww4', ':set ts=4 sts=4 sw=4 <CR>',  desc = '4',       silent = true, },
-         { '<space>,ww8', ':set ts=8 sts=8 sw=8 <CR>',  desc = '8',       silent = true, },
+         { '<space>,wwd', ':set ts=3 sts=3 sw=3 <CR>', desc = 'Default', silent = true, },
+         { '<space>,ww1', ':set ts=1 sts=1 sw=1 <CR>', desc = '1',       silent = true, },
+         { '<space>,ww2', ':set ts=2 sts=2 sw=2 <CR>', desc = '2',       silent = true, },
+         { '<space>,ww3', ':set ts=3 sts=3 sw=3 <CR>', desc = '3',       silent = true, },
+         { '<space>,ww4', ':set ts=4 sts=4 sw=4 <CR>', desc = '4',       silent = true, },
+         { '<space>,ww8', ':set ts=8 sts=8 sw=8 <CR>', desc = '8',       silent = true, },
       },
    }
 }
