@@ -38,6 +38,7 @@ set et! ts=3 sw=0 sts=0
 
 augroup TAB_VS_SPACES_AUGROUP
 	autocmd!
+	autocmd BufNewFile,BufRead *.md                       :setlocal wrap
 
 	autocmd BufNewFile,BufRead Makefile,makefile          :setlocal list et! list listchars=tab:\ \ ,trail:~,leadmultispace:·,nbsp:¤
 	autocmd BufNewFile,BufRead Makefile,makefile          :echom "Makefile recognised. Now using tabs for indent"

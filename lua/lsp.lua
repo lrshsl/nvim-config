@@ -44,15 +44,11 @@ return {
                timeout_ms = 1000,
             },
             servers = {
-               ['lua_ls'] = { 'lua' },
-               ['vimls'] = { 'vim' },
-               ['rust_analyzer'] = { 'rust' },
                ['clangd-format'] = { 'c', 'cpp' },
                ['google-java-format'] = { 'java' },
                ['autopep8'] = { 'python' },
                ['typstyle'] = { 'typst' },
-               ['nimls'] = { 'nim' },
-               ['zls'] = { 'zig' },
+               ['nph'] = { 'nim' },
             }
          }
 
