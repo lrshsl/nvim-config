@@ -1,9 +1,9 @@
-local expandr_project_root = '/code/parsing/expandr'
-
 -- Custom filetypes
 vim.filetype.add {
    extension = {
       exr = 'exr',
+      xpr = 'exr',
+      xdr = 'exr',
       ucad = 'microcad',
    }
 }
@@ -26,8 +26,13 @@ vim.lsp.enable 'racket'
 vim.lsp.enable 'gdscript'
 vim.lsp.enable 'c3_lsp'
 
+
+-- Expandr
 vim.lsp.config.expandr = {
-   cmd = { os.getenv('HOME') .. expandr_project_root .. '/target/debug/expandr-lsp' },
+   cmd = { 'expandr-lsp' },
    filetypes = { 'exr' },
 }
+vim.treesitter.language.add('exr', {
+   path = vim.fn.stdpath('config') .. '/parser/exr.so'
+})
 vim.lsp.enable 'expandr'
