@@ -5,7 +5,6 @@ local wk = require 'which-key'
 wk.add {
    --> Leader mappings
    {
-      { 'gh',        '<cmd>Ouroboros<CR>',         desc = 'Goto header/source' },
       { 'g',         group = 'goto' },
       { 'gd',        vim.lsp.buf.definition,       desc = 'Goto definition' },
       { 'gD',        vim.lsp.buf.declaration,      desc = 'Goto declaration' },
@@ -16,30 +15,13 @@ wk.add {
 
       { '<space>l',  group = 'log' },
       { '<space>ll', '<cmd>Noice last<CR>',        desc = 'Last message' },
-      { '<space>oh', '<cmd>Noice history<CR>',     desc = 'History' },
+      { '<space>lh', '<cmd>Noice history<CR>',     desc = 'History' },
       { '<space>ld', '<cmd>Noice diagnostics<CR>', desc = 'Diagnostics' },
       { '<space>le', '<cmd>Noice errors<CR>',      desc = 'Errors' },
       { '<space>l;', '<cmd>Noice dismiss<CR>',     desc = 'Dismiss' },
 
       --> File navigation
       { '<space>o',  group = 'open' },
-      { '<space>oo', '<cmd>Neotree toggle<cr>',    desc = 'File tree' },
-      { '<space>od',
-         '<cmd>Trouble lsp_errors toggle focus=true win.position=right<CR>',
-         desc = 'Errors', silent = true, },
-      { '<space>oD',
-         '<cmd>Trouble diagnostics toggle focus=true win.position=right<CR>',
-         desc = 'Diagnostics', silent = true, },
-      { '<space>os',
-         ':Trouble symbols toggle focus=true win.position=right<CR>',
-         desc = 'Bufffer symbols', silent = true, },
-
-      -- { '<leader>gh', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
-      -- { '<leader>ga', function() harpoon:list():append() end },
-      -- { '<leader>gj', function() harpoon:list():select(1) end },
-      -- { '<leader>gk', function() harpoon:list():select(2) end },
-      -- { '<leader>gl', function() harpoon:list():select(3) end },
-      -- { '<leader>g;', function() harpoon:list():select(4) end },
 
       --> Find
       { '<space>f',      group = 'find' },

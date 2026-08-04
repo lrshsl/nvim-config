@@ -19,5 +19,8 @@ return {
       vim.cmd [[
          command! -nargs=0 Ouroboros lua require'ouroboros'.switch()
       ]]
-   end
+   end,
+   keys = {
+      { 'gh', '<cmd>Ouroboros<CR>', desc = 'Goto header/source' },
+   }
 }

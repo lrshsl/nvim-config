@@ -3,14 +3,28 @@ return {
    tag = 'v0.2.1',
    dependencies = {
       'nvim-lua/plenary.nvim',
+      'folke/trouble.nvim', -- For C-t
 
       -- Extentions
       'nvim-telescope/telescope-ui-select.nvim',
    },
    event = 'VeryLazy',
    config = function()
+      require 'plugin.trouble_conf'
+      local trouble = require 'trouble.sources.telescope'
       local ts = require 'telescope'
       ts.setup {
+         defaults = {
+            mappings = {
+               i = {
+                  -- Send selected/all items to Trouble quickfix
+                  ["<C-t>"] = trouble.open,
+               },
+               n = {
+                  ["<C-t>"] = trouble.open,
+               },
+            }
+         },
          extensions = {
             themes = {
                layout_config = {
@@ -46,7 +60,7 @@ return {
       { '<space>fb', '<cmd>Telescope buffers<CR>',                               desc = 'Find Buffers' },
       { '<space>fo', '<cmd>Telescope oldfiles<CR>',                              desc = 'Open Recent File' },
 
-      { '<space>fm', '<cmd>Telescope marks<CR>',                              desc = 'Open Recent File' },
+      { '<space>fm', '<cmd>Telescope marks<CR>',                                 desc = 'Open Recent File' },
 
       { '<space>fs', '<cmd>Telescope lsp_document_symbols<CR>',                  desc = 'Find Symbols' },
       { '<space>fS', '<cmd>Telescope lsp_workspace_symbols<CR>',                 desc = 'Workspace Symbols' },
