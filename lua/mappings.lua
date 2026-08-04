@@ -1,7 +1,5 @@
 require 'custom_code.templates'
 local wk = require 'which-key'
-local telescope = require 'telescope.builtin'
-local session_man = require 'session_manager'
 -- local harpoon = require 'harpoon'
 
 wk.add {
@@ -16,12 +14,12 @@ wk.add {
       { 'gc',        vim.lsp.buf.incoming_calls,   desc = 'Goto incoming calls' },
       { 'gr',        vim.lsp.buf.references,       desc = 'Goto references' },
 
-      { '<space>m',  group = 'messages' },
-      { '<space>ml', '<cmd>Noice last<CR>',        desc = 'Last message' },
-      { '<space>mm', '<cmd>Noice history<CR>',     desc = 'History' },
-      { '<space>md', '<cmd>Noice diagnostics<CR>', desc = 'Diagnostics' },
-      { '<space>me', '<cmd>Noice errors<CR>',      desc = 'Errors' },
-      { '<space>m;', '<cmd>Noice dismiss<CR>',     desc = 'Dismiss' },
+      { '<space>l',  group = 'log' },
+      { '<space>ll', '<cmd>Noice last<CR>',        desc = 'Last message' },
+      { '<space>oh', '<cmd>Noice history<CR>',     desc = 'History' },
+      { '<space>ld', '<cmd>Noice diagnostics<CR>', desc = 'Diagnostics' },
+      { '<space>le', '<cmd>Noice errors<CR>',      desc = 'Errors' },
+      { '<space>l;', '<cmd>Noice dismiss<CR>',     desc = 'Dismiss' },
 
       --> File navigation
       { '<space>o',  group = 'open' },
@@ -44,79 +42,45 @@ wk.add {
       -- { '<leader>g;', function() harpoon:list():select(4) end },
 
       --> Find
-      { '<space>ft',       telescope.builtin,                                          desc = 'Find Telescope commands' },
-
-      { '<space>f',        group = 'find' },
-      { '<space>fd',       telescope.diagnostics,                                      desc = 'Find diagnostics' },
-      { '<space>fr',       telescope.lsp_references,                                   desc = 'Find References' },
-      { '<space>fi',       telescope.lsp_implementations,                              desc = 'Find Implementations' },
-      { '<space>fh',       telescope.help_tags,                                        desc = 'Find Help' },
-
-      { '<space>fg',       telescope.live_grep,                                        desc = 'Live grep' },
-
-      { '<space>ff',       '<cmd>BrootWorkingDir<CR>',                                 desc = 'Find Files' },
-      { '<space>fl',       '<cmd>BrootCurrentDir<CR>',                                 desc = 'Find local Files' },
-      { '<space>fa',       '<cmd>Telescope find_files hidden=true<CR>',                desc = 'Find All Files (also hidden)' },
-      { '<space>fA',       '<cmd>Telescope find_files hidden=true no_ignore=true<CR>', desc = 'Find All Files (hidden & ignored)' },
-      { '<space>fb',       telescope.buffers,                                          desc = 'Find Buffers' },
-      { '<space>fo',       telescope.oldfiles,                                         desc = 'Open Recent File' },
-
-      { '<space>fs',       telescope.lsp_document_symbols,                             desc = 'Find Symbols' },
-      { '<space>fS',       telescope.lsp_workspace_symbols,                            desc = 'Workspace Symbols' },
-      { '<space>fw',       telescope.lsp_dynamic_workspace_symbols,                    desc = 'Dyn Workspace Symbols' },
+      { '<space>f',      group = 'find' },
 
       --> Git
-      { '<space>g',        group = "git" },
-      { '<space>g.',       '<cmd>Git<CR>',                                             desc = 'Git' },
-      { '<space>g<space>', ':Git<space>',                                              desc = ':Git <CMD>' },
+      { '<space>g',      group = "git" },
 
-      { '<space>a',        group = "Harpoon" },
+      { '<space>a',      group = "Harpoon" },
 
       --> Session
-      { '<space>s',        group = 'session' },
-      { '<space>ss',       session_man.save_current_session,                           desc = 'Save Session' },
-      { '<space>s.',       session_man.load_current_dir_session,                       desc = 'Load Session for the CWD' },
-      { '<space>sl',       session_man.load_session,                                   desc = 'Load Session' },
-      { '<space>sL',       session_man.load_last_session,                              desc = 'Load Last Session' },
-      { '<space>sd',       session_man.delete_session,                                 desc = 'Delete Session' },
-      { '<space>sD', function()
-         session_man.delete_current_dir_session()
-         vim.cmd ":cd | bufdo bd!"
-         session_man.load_session()
-      end, desc = 'Delete Current Session' },
-      { '<space>sc',     [[ <cmd>cd | bufdo bd!<cr> ]],             desc = 'Close Session' },
+      { '<space>s',      group = 'session' },
 
       --> Lsp
       { '<space>c',      group = 'code' },
-      { '<space>ca',     vim.lsp.buf.code_action,                   desc = 'Code Action' },
-      { '<space>ch',     vim.lsp.buf.hover,                         desc = 'Hover' },
-      { '<space>cf',     vim.lsp.buf.format,                        desc = 'Format' },
-      { '<space>cd',     vim.diagnostic.open_float,                 desc = 'Diagnostics' },
-      { '<space>cr',     vim.lsp.buf.rename,                        desc = 'Rename' },
+      { '<space>ca',     vim.lsp.buf.code_action,             desc = 'Code Action' },
+      { '<space>ch',     vim.lsp.buf.hover,                   desc = 'Hover' },
+      { '<space>cf',     vim.lsp.buf.format,                  desc = 'Format' },
+      { '<space>cd',     vim.diagnostic.open_float,           desc = 'Diagnostics' },
+      { '<space>cr',     vim.lsp.buf.rename,                  desc = 'Rename' },
 
-      { '<space>;u',     '<cmd>UndotreeToggle | UndotreeFocus<cr>', desc = 'Undo Tree' },
 
-      { '<space>;z',     '<cmd>!zathura %:r.pdf &<cr>',             desc = 'Open in Zathura' },
-      { '<space>;v',     '<cmd>Vista focus<cr>',                    desc = 'Focus / Open Vista' },
-      { '<space>;lt',    SearchTemplate,                            desc = 'Load Template' },
+      { '<space>;z',     '<cmd>!zathura %:r.pdf &<cr>',       desc = 'Open in Zathura' },
+      { '<space>;lt',    SearchTemplate,                      desc = 'Load Template' },
 
       --> Text editing
-      { '<space>u',      'viw~',                                    desc = 'lower <-> UPPER' },
-      { '<space>U',      'viW~',                                    desc = 'lower-word <-> UPPER-WORD' },
-      { '<space>y',      '~<Left>',                                 desc = '~' },
+      { '<space>u',      'viw~',                              desc = 'lower <-> UPPER' },
+      { '<space>U',      'viW~',                              desc = 'lower-word <-> UPPER-WORD' },
+      { '<space>y',      '~<Left>',                           desc = '~' },
 
       { '<space>;c',     group = "Change case" },
-      { '<space>;cc',    [[mzviw:s/\%V_\(\w\)/\u\1/g<CR>`z]],       desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
-      { '<space>;cs',    [[mzviw:s/\%V\(\u\)/_\l\1/g<CR>`z]],       desc = "camelCase -> snake_case" },
+      { '<space>;cc',    [[mzviw:s/\%V_\(\w\)/\u\1/g<CR>`z]], desc = "snake_case -> camelCase" },       -- \%V represents the visual selection boundary. If not specified, s operates linewise
+      { '<space>;cs',    [[mzviw:s/\%V\(\u\)/_\l\1/g<CR>`z]], desc = "camelCase -> snake_case" },
 
       --> Buffer
-      { '<space>w',      ':w<CR>',                                  desc = 'write buffer' },
-      { '<space>;w',     ':wa<CR>',                                 desc = 'write buffers' },
-      { '<space>q',      ':q<CR>',                                  desc = 'quit buffer' },
-      { '<space>;q',     ':qa<CR>',                                 desc = 'quit all' },
+      { '<space>w',      ':w<CR>',                            desc = 'write buffer' },
+      { '<space>;w',     ':wa<CR>',                           desc = 'write buffers' },
+      { '<space>q',      ':q<CR>',                            desc = 'quit buffer' },
+      { '<space>;q',     ':qa<CR>',                           desc = 'quit all' },
 
-      { '<space>;x',     ':%!xxd<CR>',                              desc = 'xxd' },
-      { '<space>;<S-x>', ':%!xxd -r<CR>',                           desc = 'xxd -r' },
+      { '<space>;x',     ':%!xxd<CR>',                        desc = 'xxd' },
+      { '<space>;<S-x>', ':%!xxd -r<CR>',                     desc = 'xxd -r' },
 
       --> Search and replace
       {
@@ -153,8 +117,6 @@ wk.add {
       { '0', desc = 'Start of line' },
    },
 
-   { '-',  require 'oil'.open, desc = 'Oil' },
-
    { mode = { 'n', 'v', 'i' },
       { '<S-CR>', CustomShiftCR }
    },
@@ -165,8 +127,8 @@ wk.add {
    },
 
    --> Last macro
-   { '\\', '@@',               desc = 'Last macro',              mode = 'n' },
-   { '\\', ':normal @@<CR>',   desc = 'Last macro on each line', mode = 'v' },
+   { '\\', '@@',             desc = 'Last macro',              mode = 'n' },
+   { '\\', ':normal @@<CR>', desc = 'Last macro on each line', mode = 'v' },
 
    --> Insert mode mappings
    {

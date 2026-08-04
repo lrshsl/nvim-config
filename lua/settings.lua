@@ -1,7 +1,6 @@
 BgTransparent = true
 NumbersOn = false
 LimelightMode = 'DoubleNewline'
-vim.g.neovide_opacity = 0.9
 FontName = 'JetBrainsMono\\ NFM\\ ExtraLight'
 FontSize = 12
 

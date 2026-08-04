@@ -38,11 +38,11 @@ return {
          },
       },
       routes = {
-         {
-            view = "vsplit",
+         { -- :! command output
+            view = "popup", -- "vsplit", mini", "popup"
             filter = {
                event = "msg_show",
-               kind = { "shell_out", "shell_err" }, -- show :! command output in split
+               kind = { "shell_out", "shell_err" },
             },
          },
       },

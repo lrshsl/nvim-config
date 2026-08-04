@@ -25,7 +25,7 @@ local plugins = {
 
    --> Text editing
    require 'plugin.treesitter_conf',
-   'tpope/vim-fugitive',
+   require 'plugin.fugitive_conf',
    'tpope/vim-surround',
    'tpope/vim-repeat',
    'tpope/vim-commentary',
@@ -34,50 +34,43 @@ local plugins = {
    require 'plugin.autopairs_conf',
 
    --> Undotree
-   { 'mbbill/undotree',         cmd = 'UndotreeToggle' },
+   require 'plugin.undotree_conf',
 
    --> Sneak around in a file with s/S
    'justinmk/vim-sneak',
 
    --> LSP
-   require 'lsp',
+   require 'plugin.lsp_zero_conf',
+   require 'plugin.nvim_cmp_conf',
+   require 'plugin.trouble_conf',
    require 'plugin.ouroboros_conf',
 
-   --> Latex
+   --> Markup
    -- require 'latex',
    require 'typst_conf',
 
    --> AI helper
-   require 'plugin.codeium',
-   require 'plugin.99_ai',
+   require 'plugin.codeium_conf',
+   require 'plugin.99_ai_conf',
 
    --> Space(macs|vim)-like keybinding preview
-   require 'plugin.which_key',
+   require 'plugin.which_key_conf',
    require 'plugin.noice_conf',
 
    --> Session manager
    require 'plugin.session_manager_conf',
 
    --> Files
-   require 'plugin.neotree',
+   require 'plugin.neotree_conf',
    require 'plugin.harpoon_conf',
-   { 'aohoyd/broot.nvim', opts = {}, },
-   { 'stevearc/oil.nvim', opts = {}, cmd = 'Oil', },
+   require 'plugin.broot_conf',
+   require 'plugin.oil_conf',
 
    --> Fuzzy finders
    require 'plugin.telescope_conf',
-   { 'junegunn/fzf',      lazy = false },
 
    --> Document Symbols
-   {
-      'liuchengxu/vista.vim',
-      cmd = 'Vista',
-      init = function()
-         -- vim.g.vista_default_executive = 'nvim_lsp'
-         vim.g.vista_sidebar_width = 40
-         vim.g.close_on_jump = 1
-      end,
-   },
+   require 'plugin.vista_conf',
 
    --> Zen mode
    { 'junegunn/goyo.vim', cmd = 'Goyo' },

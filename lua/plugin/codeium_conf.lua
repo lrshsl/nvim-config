@@ -1,5 +1,6 @@
 return {
    'exafunction/codeium.nvim',
+   cmd = 'Codeium',
    opts = {
       enable_cmp_source = false,
       virtual_text = {
@@ -17,5 +18,4 @@ return {
    init = function()
       vim.cmd 'hi CodeiumSuggestion guifg=#b0b0b0'
    end,
-   cmd = 'Codeium'
 }

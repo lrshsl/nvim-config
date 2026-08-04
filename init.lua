@@ -4,8 +4,6 @@ vim = vim
 -- TODO:
 --> Store settings! (local? Session?)
 --> fix noice
---> Undotree
---> Harpoon
 --> Telescope themes?
 --> Vista?
 --> get good with vim-surround

@@ -1,20 +1,19 @@
-local pickers      = require("telescope.pickers")
-local finders      = require("telescope.finders")
-local conf         = require("telescope.config").values
-local actions      = require("telescope.actions")
-local action_state = require("telescope.actions.state")
-
 -- File picker
 function AskUserPickFile(dir, callback)
+   local finders = require 'telescope.finders'
    AskUserCallback(
-      "Choose a file",
-      finders.new_oneshot_job({ "fd", "--base-directory", dir, "--type", "f" }, {}),
+      'Choose a file',
+      finders.new_oneshot_job({ 'fd', '--base-directory', dir, '--type', 'f' }, {}),
       callback
    )
 end
 
 -- Callback-based version
 function AskUserCallback(prompt, source, callback)
+   local pickers      = require 'telescope.pickers'
+   local conf         = require 'telescope.config'.values
+   local actions      = require 'telescope.actions'
+   local action_state = require 'telescope.actions.state'
    pickers.new({}, {
       prompt_title = prompt,
       finder = source,
@@ -33,7 +32,11 @@ end
 -- Coroutine-based version
 function AskUser(prompt, source)
    local co = coroutine.running()
-   if not co then error("AskUser must be called inside a coroutine") end
+   if not co then error('AskUser must be called inside a coroutine') end
+   local pickers      = require 'telescope.pickers'
+   local conf         = require 'telescope.config'.values
+   local actions      = require 'telescope.actions'
+   local action_state = require 'telescope.actions.state'
 
    pickers.new({}, {
       prompt_title = prompt,
