@@ -33,6 +33,8 @@ local plugins = {
 
    require 'plugin.autopairs_conf',
 
+   require 'plugin.flash_conf',
+
    --> Undotree
    require 'plugin.undotree_conf',
 
