@@ -5,23 +5,23 @@ local wk = require 'which-key'
 wk.add {
    --> Leader mappings
    {
-      { 'g',         group = 'goto' },
-      { 'gd',        vim.lsp.buf.definition,       desc = 'Goto definition' },
-      { 'gD',        vim.lsp.buf.declaration,      desc = 'Goto declaration' },
-      { 'gi',        vim.lsp.buf.implementation,   desc = 'Goto implementation' },
-      { 'gt',        vim.lsp.buf.type_definition,  desc = 'Goto type' },
-      { 'gc',        vim.lsp.buf.incoming_calls,   desc = 'Goto incoming calls' },
-      { 'gr',        vim.lsp.buf.references,       desc = 'Goto references' },
+      { 'g',             group = 'goto' },
+      { 'gd',            vim.lsp.buf.definition,              desc = 'Goto definition' },
+      { 'gD',            vim.lsp.buf.declaration,             desc = 'Goto declaration' },
+      { 'gi',            vim.lsp.buf.implementation,          desc = 'Goto implementation' },
+      { 'gt',            vim.lsp.buf.type_definition,         desc = 'Goto type' },
+      { 'gc',            vim.lsp.buf.incoming_calls,          desc = 'Goto incoming calls' },
+      { 'gr',            vim.lsp.buf.references,              desc = 'Goto references' },
 
-      { '<space>l',  group = 'log' },
-      { '<space>ll', '<cmd>Noice last<CR>',        desc = 'Last message' },
-      { '<space>lh', '<cmd>Noice history<CR>',     desc = 'History' },
-      { '<space>ld', '<cmd>Noice diagnostics<CR>', desc = 'Diagnostics' },
-      { '<space>le', '<cmd>Noice errors<CR>',      desc = 'Errors' },
-      { '<space>l;', '<cmd>Noice dismiss<CR>',     desc = 'Dismiss' },
+      { '<space>l',      group = 'log' },
+      { '<space>ll',     '<cmd>Noice last<CR>',               desc = 'Last message' },
+      { '<space>lh',     '<cmd>Noice history<CR>',            desc = 'History' },
+      { '<space>ld',     '<cmd>Noice diagnostics<CR>',        desc = 'Diagnostics' },
+      { '<space>le',     '<cmd>Noice errors<CR>',             desc = 'Errors' },
+      { '<space>l;',     '<cmd>Noice dismiss<CR>',            desc = 'Dismiss' },
 
       --> File navigation
-      { '<space>o',  group = 'open' },
+      { '<space>o',      group = 'open' },
 
       --> Find
       { '<space>f',      group = 'find' },
@@ -52,7 +52,7 @@ wk.add {
       { '<space>y',      '~<Left>',                           desc = '~' },
 
       { '<space>;c',     group = "Change case" },
-      { '<space>;cc',    [[mzviw:s/\%V_\(\w\)/\u\1/g<CR>`z]], desc = "snake_case -> camelCase" },       -- \%V represents the visual selection boundary. If not specified, s operates linewise
+      { '<space>;cc',    [[mzviw:s/\%V_\(\w\)/\u\1/g<CR>`z]], desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
       { '<space>;cs',    [[mzviw:s/\%V\(\u\)/_\l\1/g<CR>`z]], desc = "camelCase -> snake_case" },
 
       --> Buffer
@@ -99,20 +99,24 @@ wk.add {
       { '0', desc = 'Start of line' },
    },
 
-   { mode = { 'n', 'v', 'i' },
-      { '<S-CR>', CustomShiftCR }
-   },
-
    {
       mode = { 'n' },
       { '<A-h>', '<cmd>ClangdSwitchSourceHeader<CR>', desc = 'Switch source/header' },
    },
 
    --> Last macro
-   { '\\', '@@',             desc = 'Last macro',              mode = 'n' },
-   { '\\', ':normal @@<CR>', desc = 'Last macro on each line', mode = 'v' },
+   { '\\', '@@',                                                             desc = 'Last macro',              mode = 'n' },
+   { '\\', ':normal @@<CR>',                                                 desc = 'Last macro on each line', mode = 'v' },
+
+   --> Next diagnostic
+   { ']d', function() vim.diagnostic.jump { count = 1, float = true } end,  desc = 'Next diagnostic' },
+   { '[d', function() vim.diagnostic.jump { count = -1, float = true } end, desc = 'Previous diagnostic' },
 
    --> Insert mode mappings
+   { mode = { 'n', 'v', 'i' },
+      { '<S-CR>', CustomShiftCR }
+   },
+
    {
       mode = { 'i' },
       name = 'Abbreviations, umlauts and accents',
@@ -425,8 +429,8 @@ noremap N 5<down>
 noremap E 5<up>
 
 " Left and right without leaving insert mode
-"inoremap <C-h> <C-o><Left>
-"inoremap <C-i> <right>
+inoremap <C-p> <left>
+inoremap <C-n> <right>
 "inoremap <C-e> <up>
 "inoremap <C-n> <down>
 

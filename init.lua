@@ -3,11 +3,9 @@ vim = vim
 
 -- TODO:
 --> Store settings! (local? Session?)
---> fix noice
 --> Telescope themes?
---> Vista?
---> sneak
 --> get good with vim-surround
+--> snacks.nvim!
 --
 --> ditch nvim-cmp for <C-x><C-o> omnifunc?
 
