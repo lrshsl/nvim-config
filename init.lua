@@ -6,12 +6,13 @@ vim = vim
 --> fix noice
 --> Telescope themes?
 --> Vista?
+--> sneak
 --> get good with vim-surround
 --
 --> ditch nvim-cmp for <C-x><C-o> omnifunc?
 
 -- Required before plugins
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
 
 Nmap = function(key, command) vim.keymap.set('n', key, command, { noremap = true, silent = true }) end
 Vmap = function(key, command) vim.keymap.set('v', key, command, { noremap = true, silent = true }) end
@@ -25,10 +26,8 @@ require 'settings'
 require 'snippets'
 require 'custom_filetypes'
 
-vim.cmd [[
-if exists('g:neovide')
-	lua require 'neovide'
-endif
+if vim.g.neovide ~= nil then
+   require 'neovide'
+end
 
-imap <tab> <tab>
-]]
+Imap('<tab>', '<tab>')

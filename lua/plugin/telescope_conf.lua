@@ -18,10 +18,18 @@ return {
             mappings = {
                i = {
                   -- Send selected/all items to Trouble quickfix
-                  ["<C-t>"] = trouble.open,
+                  ['<C-t>'] = trouble.open,
+                  ['<C-e>'] = 'move_selection_previous',
+                  ['<C-n>'] = 'move_selection_next',
+                  ['<C-u>'] = 'preview_scrolling_up',
+                  ['<C-y>'] = 'preview_scrolling_down',
+
+                  -- `<cr>`: checks out the currently selected commit
+                  -- `<c-v>`: opens a diff in a vertical split
+                  -- `<c-x>`: opens a diff in a horizontal split
                },
                n = {
-                  ["<C-t>"] = trouble.open,
+                  ['<C-t>'] = trouble.open,
                },
             }
          },
