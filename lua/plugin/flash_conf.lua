@@ -2,7 +2,9 @@ return {
    "folke/flash.nvim",
    event = "VeryLazy",
    ---@type Flash.Config
-   opts = {},
+   opts = {
+      labels = "arstneioqwfpluy;dhvkmc1234567890",
+   },
    keys = {
       { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,                    desc = "Flash" },
       { "gn",    mode = { "n", "x", "o" }, function() require("flash").jump({ continue = true }) end, desc = "Flash" },

@@ -20,8 +20,10 @@ local plugins = {
    { 'nvim-tree/nvim-web-devicons', lazy = false },
 
    --> Platformio
-   { 'normen/vim-pio',              ft = { 'c', 'cpp' } },
-   { 'benknoble/vim-racket',        ft = 'racket' },
+   { 'normen/vim-pio',       ft = { 'c', 'cpp' } },
+   { 'benknoble/vim-racket', ft = 'racket' },
+
+   require 'plugin.snacks_conf',
 
    --> Text editing
    require 'plugin.treesitter_conf',
@@ -37,9 +39,6 @@ local plugins = {
 
    --> Undotree
    require 'plugin.undotree_conf',
-
-   --> Sneak around in a file with s/S
-   'justinmk/vim-sneak',
 
    --> LSP
    require 'plugin.lsp_zero_conf',
@@ -63,7 +62,6 @@ local plugins = {
    require 'plugin.session_manager_conf',
 
    --> Files
-   require 'plugin.neotree_conf',
    require 'plugin.harpoon_conf',
    require 'plugin.broot_conf',
    require 'plugin.oil_conf',
@@ -75,7 +73,7 @@ local plugins = {
    require 'plugin.vista_conf',
 
    --> Zen mode
-   { 'junegunn/goyo.vim', cmd = 'Goyo' },
+   { 'junegunn/goyo.vim',       cmd = 'Goyo' },
    {
       'junegunn/limelight.vim',
       cmd = 'Limelight',
