@@ -51,7 +51,7 @@ wk.add {
       { '<space>U',      'viW~',                              desc = 'lower-word <-> UPPER-WORD' },
       { '<space>y',      '~<Left>',                           desc = '~' },
 
-      { '<space>;c',     group = "Change case" },
+      { '<space>;c',     group = 'Change case' },
       { '<space>;cc',    [[mzviw:s/\%V_\(\w\)/\u\1/g<CR>`z]], desc = "snake_case -> camelCase" }, -- \%V represents the visual selection boundary. If not specified, s operates linewise
       { '<space>;cs',    [[mzviw:s/\%V\(\u\)/_\l\1/g<CR>`z]], desc = "camelCase -> snake_case" },
 
@@ -69,14 +69,51 @@ wk.add {
          mode = { 'n' },
          { '<space>*', ':%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>',
             desc = 'Search and replace (cursor)' },
-         { '<space>;s', ':%s//gc<Left><Left><Left>',           desc = 'Search and replace' },
-         { '<space>f*', '*<cmd>Telescope live_grep<CR><C-r>/', desc = 'Live grep' },
+         { '<space>;s',  ':%s//gc<Left><Left><Left>',           desc = 'Search and replace' },
+         { '<space>;ls', ':%s//gc<Left><Left><Left>',           desc = 'Split line' },
+         { '<space>f*',  '*<cmd>Telescope live_grep<CR><C-r>/', desc = 'Live grep' },
 
       },
       {
          mode = { 'v' },
-         { '<space>*',  ':s/<C-r><C-w>/<C-r><C-w>/g<Left><Left>', desc = 'Search and replace (cursor)' },
-         { '<space>;s', [[:s/\%V/g<Left><Left>]],                 desc = 'Search and replace' },
+         { '<space>*',   ':s/<C-r><C-w>/<C-r><C-w>/g<Left><Left>', desc = 'Search and replace (cursor)' },
+         { '<space>;s',  [[:s/\%V/g<Left><Left>]],                 desc = 'Search and replace' },
+
+         { '<space>;l',  group = 'Line' },
+         -- Issue: `s/\%V../\r/g` doesn't work (replaces sequentially, doesn't
+         -- move visual selection -> only first occurrence is actually
+         -- replaced). See https://stackoverflow.com/questions/62791569/substitute-spaces-with-new-line-in-selection-in-vim
+         --
+         -- This is why I run two selections: first with `\%V` and `\n`
+         -- (inserts a null byte), second with `\%x00` (null byte) to `\r`
+         -- (newline). Yes, confusing. Please don't touch.
+         { '<space>;lW', [[:s/\%V\s\+/\n/g | s/\%x00/\r/g<CR>]],   desc = 'Split WORDS' },
+         {
+            '<space>;ls',
+            function()
+               vim.ui.input({ prompt = 'Split at: ' }, function(inp)
+                  if inp == '' then inp = '\\s' end
+                  vim.cmd([['<,'>s/\%V]] .. inp .. [[\+/\n/g]])
+                  vim.cmd([[s/\%x00/\r/g]])
+               end)
+            end,
+            desc = 'Split at <input> (<input> -> \\n)'
+         },
+         {
+            '<space>;lS',
+            function()
+               vim.ui.input({ prompt = 'Split at: ' }, function(split_pat)
+                  vim.ui.input({ prompt = 'Replace with: .. + \\n' }, function(sub_pat)
+                     if split_pat == '' then split_pat = '\\s' end
+                     sub_pat = sub_pat or ''
+
+                     vim.cmd([['<,'>s/\%V]] .. split_pat .. [[\+/\n/g]])
+                     vim.cmd([[s/\%x00/]] .. sub_pat .. [[\r/g]])
+                  end)
+               end)
+            end,
+            desc = '<input1> -> <input2> + \\n'
+         },
       },
    },
 
@@ -105,8 +142,8 @@ wk.add {
    },
 
    --> Last macro
-   { '\\', '@@',                                                             desc = 'Last macro',              mode = 'n' },
-   { '\\', ':normal @@<CR>',                                                 desc = 'Last macro on each line', mode = 'v' },
+   { '\\', '@@',                                                            desc = 'Last macro',              mode = 'n' },
+   { '\\', ':normal @@<CR>',                                                desc = 'Last macro on each line', mode = 'v' },
 
    --> Next diagnostic
    { ']d', function() vim.diagnostic.jump { count = 1, float = true } end,  desc = 'Next diagnostic' },
@@ -210,9 +247,7 @@ vnoremap Y "+y
 vnoremap <C-c> "+y
 vnoremap <C-v> "+p
 
-" Put yanked content in reg k "
-noremap <space>P <cmd>let @k=@"<CR>
-noremap <space>p "kp
+" Note: To paste without changing a register: <S-p>
 
 " Paste on new line "
 nnoremap <space>;p <cmd>pu<CR>==$
@@ -240,6 +275,9 @@ nnoremap <space>i <cmd>wincmd l<CR>
 nnoremap <space>h <cmd>wincmd h<CR>
 nnoremap <space>n <cmd>wincmd j<CR>
 nnoremap <space>e <cmd>wincmd k<CR>
+
+nnoremap zn zj
+nnoremap ze zk
 
 " Stop highlight "
 noremap <C-;> <cmd>noh<CR>
@@ -388,7 +426,8 @@ vim.cmd [[
 "imap <C-[>   <Cmd>call codeium#Clear()<CR>
 
 " Correct last spelling mistake "
-noremap <C-l> <C-g>u<esc>[s1z=`]a<C-g>u
+nnoremap <C-l> <C-g>u<esc>[s1z=`]a<C-g>u
+inoremap <C-l> <C-g>u<esc>[s1z=`]a<C-g>u
 
 " Colemak Mappings
 inoremap tn <esc>
