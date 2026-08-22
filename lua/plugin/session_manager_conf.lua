@@ -49,6 +49,14 @@ return {
          end,
          desc = 'Delete Current Session'
       },
-      { '<space>sc', [[ <cmd>cd | bufdo bd!<cr> ]], desc = 'Close Session' },
+      { '<space>sc', function() require 'snacks'.bufdelete.invisible() end, desc = 'Clear Session (delete bg buffers)' },
+      {
+         '<space>sq',
+         function()
+            vim.cmd 'cd ~'
+            require 'snacks'.bufdelete.all()
+         end,
+         desc = 'Quit Session'
+      },
    }
 }
