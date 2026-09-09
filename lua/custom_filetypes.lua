@@ -1,10 +1,14 @@
 -- Custom filetypes
 vim.filetype.add {
    extension = {
+      pest = 'pest',
       exr = 'exr',
       xpr = 'exr',
       xdr = 'exr',
       ucad = 'microcad',
+      c2 = 'c2',
+      c2t = 'c2',
+      c2i = 'c2',
    }
 }
 
