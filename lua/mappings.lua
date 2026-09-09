@@ -287,8 +287,8 @@ noremap <C-;> <cmd>noh<CR>
 --vim.cmd " map ]] [}<CR> "
 
 wk.add {
-   { '<space>rt', function() Terminal_SendCommandAndFocus("just", false) end, desc = 'Oil' },
-   { '<space>rn', function() Terminal_SendCommandAndFocus("just", true) end,  desc = 'Oil' },
+   { '<space>rt', function() Terminal_SendCommandAndFocus("just", false) end, desc = 'Run terminal' },
+   { '<space>rn', function() Terminal_SendCommandAndFocus("just", true) end,  desc = 'Run terminal directly' },
 }
 
 vim.cmd [[
