@@ -28,7 +28,7 @@ local plugins = {
    --> Text editing
    require 'plugin.treesitter_conf',
    require 'plugin.fugitive_conf',
-   'tpope/vim-surround',
+   -- 'tpope/vim-surround',
    'tpope/vim-repeat',
    'tpope/vim-commentary',
    { "smjonas/inc-rename.nvim", opts = { show_message = false, } },
@@ -69,19 +69,6 @@ local plugins = {
    --> Fuzzy finders
    require 'plugin.telescope_conf',
 
-   --> Document Symbols
-   require 'plugin.vista_conf',
-
-   --> Zen mode
-   { 'junegunn/goyo.vim',       cmd = 'Goyo' },
-   {
-      'junegunn/limelight.vim',
-      cmd = 'Limelight',
-      init = function()
-         vim.g.limelight_bop = '^\\n\\n'
-         vim.g.limelight_eop = '^\\n\\n'
-      end
-   },
    { 'EdenEast/nightfox.nvim', lazy = false },
    -- { 'sainnhe/sonokai',             lazy = true },
 }

@@ -13,6 +13,11 @@ vim.cmd('set guifont=' .. FontName .. ':h' .. FontSize)
 
 --> Ligature test: -> 1/2 >= 0 |>
 
+-- fold settings
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Treesitter folding
+vim.opt.foldlevel = 1
+
 -- Vim settings {{{
 vim.cmd [[
 set encoding=utf-8
