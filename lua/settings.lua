@@ -18,6 +18,8 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Treesitter folding
 vim.opt.foldlevel = 1
 
+vim.opt.conceallevel = 2
+
 -- Vim settings {{{
 vim.cmd [[
 set encoding=utf-8

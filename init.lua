@@ -8,6 +8,7 @@ vim = vim
 --> snacks.nvim!
 --
 --> ditch nvim-cmp for <C-x><C-o> omnifunc?
+-- soiyek for pdf
 
 -- Required before plugins
 vim.g.mapleader = ' '

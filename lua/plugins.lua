@@ -49,6 +49,7 @@ local plugins = {
    --> Markup
    -- require 'latex',
    require 'typst_conf',
+   require 'plugin.md_rendering',
 
    --> AI helper
    require 'plugin.codeium_conf',
