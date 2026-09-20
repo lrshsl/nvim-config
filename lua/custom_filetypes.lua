@@ -9,6 +9,7 @@ vim.filetype.add {
       c2 = 'c2',
       c2t = 'c2',
       c2i = 'c2',
+      crash = 'crash',
    }
 }
 
@@ -40,3 +41,10 @@ vim.treesitter.language.add('exr', {
    path = vim.fn.stdpath('config') .. '/parser/exr.so'
 })
 vim.lsp.enable 'expandr'
+
+-- Crash
+vim.lsp.config.crash = {
+   cmd = { 'crash', 'lsp' },
+   filetypes = { 'crash' },
+}
+vim.lsp.enable 'crash'
