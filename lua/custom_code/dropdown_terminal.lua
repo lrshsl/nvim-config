@@ -151,7 +151,7 @@ function Terminal_SendCommandAndFocus(cmd, execute_directly)
 
    -- 2. Prepare the string
    -- If execute_directly is true, we add the newline character
-   local keys = execute_directly and (cmd .. "\n") or cmd
+   local keys = execute_directly and ("clear; " .. cmd .. "\n") or cmd
 
    -- 3. Send to the terminal channel
    if TermChan then

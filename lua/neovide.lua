@@ -13,7 +13,7 @@ vim.g.neovide_cursor_vfx_mode = "pixiedust"
 vim.g.neovide_scroll_animation_length = 0.0
 
 -- Progressbar
-vim.g.neovide_progress_bar_enabled = true
+vim.g.neovide_progress_bar_enabled = false
 vim.g.neovide_progress_bar_height = 2.0
 vim.g.neovide_progress_bar_animation_speed = 400.0
 vim.g.neovide_progress_bar_hide_delay = 0.2

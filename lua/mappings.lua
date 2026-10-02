@@ -287,8 +287,8 @@ noremap <C-;> <cmd>noh<CR>
 --vim.cmd " map ]] [}<CR> "
 
 wk.add {
-   { '<space>rt', function() Terminal_SendCommandAndFocus("just", false) end, desc = 'Run terminal' },
-   { '<space>rn', function() Terminal_SendCommandAndFocus("just", true) end,  desc = 'Run terminal directly' },
+   { '<space>rn', function() Terminal_SendCommandAndFocus("just", false) end, desc = 'Run terminal' },
+   { '<space>rt', function() Terminal_SendCommandAndFocus("just", true) end,  desc = 'Run terminal directly' },
 }
 
 vim.cmd [[
@@ -376,9 +376,12 @@ augroup CMD_RUN
 	autocmd BufNewFile,BufRead *.tex              nnoremap <space>rf   :!pdflatex %
 
    " Typst -> PDF "
-	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rf   :!typst compile %
+	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rF   :!typst compile %
+	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rf   :!typst c % --root ../../
+	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rn   :!typst c % --root ../../ && zathura %:r.pdf<CR>
 	autocmd BufNewFile,BufRead *.typ              nnoremap <space>ra   :!typst watch % &
-	autocmd BufNewFile,BufRead *.typ              nnoremap <space>rn   :!typst c % --root ../../
+
+	autocmd BufNewFile,BufRead *.typ              nnoremap <space>ra   :silent !kitty @ launch --location=vsplit zathura %:p
 
 	autocmd BufNewFile,BufRead *.exr,*.xpr,*.xdr  nnoremap <space>rf   :!expandr expand %
 augroup END
