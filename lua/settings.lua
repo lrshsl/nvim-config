@@ -19,11 +19,11 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Treesitter folding
 vim.opt.foldlevel = 1
 
 vim.opt.conceallevel = 2
+vim.opt.undofile = true
 
 -- Vim settings {{{
 vim.cmd [[
 set encoding=utf-8
-set undofile
 
 filetype plugin indent on
 syntax enable

@@ -27,7 +27,7 @@ local plugins = {
 
    --> Text editing
    require 'plugin.treesitter_conf',
-   require 'plugin.fugitive_conf',
+   -- require 'plugin.fugitive_conf',
    -- 'tpope/vim-surround',
    'tpope/vim-repeat',
    'tpope/vim-commentary',
